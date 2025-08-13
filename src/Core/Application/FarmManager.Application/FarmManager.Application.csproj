@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Persistence\FarmManager.Persistence.Query\FarmManager.Persistence.Query.csproj" />
+    <ProjectReference Include="..\FarmManager.Application.Contracts\FarmManager.Application.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
