@@ -9,16 +9,19 @@ public class Animal : IAnimal
     public int Age { get; set; }
     public Arroba Weight { get; set; } = new Arroba(0);
     public string Type { get; set; } = string.Empty;
+    public DateTime Birthday { get; set; }
 
     public Animal(int registerNumber,
         int age,
         Arroba weight,
-        string type)
+        string type,
+        DateTime birthday)
     {
         RegisterNumber = registerNumber;
         Age = age;
         Weight = weight;
         Type = type;
+        Birthday = birthday;
     }
 
     public void UpdateAge(int newAge) => Age = newAge;
