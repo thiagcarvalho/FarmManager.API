@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Domain", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.DataModels", "src\Persistence\FarmManager.Persistence.DataModels\FarmManager.Persistence.DataModels.csproj", "{E0CA8644-015A-4A95-A9E2-EB9D8FA99948}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.Query", "src\Persistence\FarmManager.Persistence.Query\FarmManager.Persistence.Query.csproj", "{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{E0CA8644-015A-4A95-A9E2-EB9D8FA99948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0CA8644-015A-4A95-A9E2-EB9D8FA99948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0CA8644-015A-4A95-A9E2-EB9D8FA99948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{81E7AD50-F9A0-415B-B303-051814A72F5B} = {075ACA70-30B2-4CA3-B3A1-AB2A937966EE}
 		{98241D2F-C55C-45EC-A06B-06F190F89544} = {D231693C-B6CA-4787-B396-1EF8BE86853C}
 		{E0CA8644-015A-4A95-A9E2-EB9D8FA99948} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
+		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC18DFBD-7EEB-4363-9F7F-459DAE9BB062}
