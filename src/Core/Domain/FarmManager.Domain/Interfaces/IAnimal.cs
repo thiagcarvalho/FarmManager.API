@@ -8,6 +8,7 @@ public interface IAnimal
     int Age { get; set; }
     Arroba Weight { get; set; }
     string Type { get; set; }
+    DateTime Birthday { get; set; }
 
     void UpdateWeight(Arroba newWeight);
     void UpdateAge(int newAge);
