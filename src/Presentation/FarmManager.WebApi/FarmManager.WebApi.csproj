@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Application\FarmManager.Application.Contracts\FarmManager.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\Core\Application\FarmManager.Application\FarmManager.Application.csproj" />
+    <ProjectReference Include="..\..\Persistence\FarmManager.Persistence.Command\FarmManager.Persistence.Command.csproj" />
     <ProjectReference Include="..\..\Persistence\FarmManager.Persistence.Query\FarmManager.Persistence.Query.csproj" />
   </ItemGroup>
 
