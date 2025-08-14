@@ -22,7 +22,7 @@ namespace FarmManager.WebApi.Controllers
         public ActionResult Get(Guid id)
         {
             var animal = _animalService.GetAnimal(id);
-            return animal is null
+            return animal is null 
                 ? NotFound($"Animal with ID {id} not found.")
                 : Ok(animal);
         }
@@ -37,7 +37,7 @@ namespace FarmManager.WebApi.Controllers
         [HttpPost]
         public ActionResult Post([Required] AnimalInputModel animalInputModel)
         {
-            return Created($"/api/v1/Animal/{_animalService.SaveAnimal(animalInputModel)}", animalInputModel);
+            return Created($"/api/v1/Animal/{_animalService.SaveAnimal(animalInputModel)}", null);
         }
 
     }

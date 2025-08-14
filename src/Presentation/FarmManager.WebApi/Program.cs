@@ -1,9 +1,14 @@
 using AutoMapper;
 using FarmManager.Application.Contracts.Interfaces;
+using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Services;
-using FarmManager.Persistence.Query.Store;
+using FarmManager.Domain.AnimalFactory;
+using FarmManager.Domain.Interfaces.Factories;
+using FarmManager.Persistence.Command;
+using FarmManager.Persistence.Command.Store;
 using FarmManager.Persistence.Query;
+using FarmManager.Persistence.Query.Store;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +19,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAnimalQueryRepository, AnimalQueryRepository>();
+builder.Services.AddScoped<IAnimalCommandRepository, AnimalCommandRepository>();
+builder.Services.AddScoped<IAnimalFactory, AnimalFactory>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile),
+    typeof(CommandMappingProfile));
 
 
 var app = builder.Build();

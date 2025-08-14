@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.Query", "src\Persistence\FarmManager.Persistence.Query\FarmManager.Persistence.Query.csproj", "{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.Command", "src\Persistence\FarmManager.Persistence.Command\FarmManager.Persistence.Command.csproj", "{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{98241D2F-C55C-45EC-A06B-06F190F89544} = {D231693C-B6CA-4787-B396-1EF8BE86853C}
 		{E0CA8644-015A-4A95-A9E2-EB9D8FA99948} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
+		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC18DFBD-7EEB-4363-9F7F-459DAE9BB062}
