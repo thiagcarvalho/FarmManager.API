@@ -38,5 +38,15 @@ namespace FarmManager.WebApi.Controllers
             return Created($"/api/v1/Animal/{_animalService.SaveAnimal(animalInputModel)}", null);
         }
 
+        [HttpPut("{id}")]
+        public ActionResult Put(
+            [FromRoute] Guid id, 
+            [FromBody, Required] AnimalInputModel animalInputModel)
+        {
+            animalInputModel.Id = id;
+            _animalService.UpdateAnimal(id, animalInputModel);
+            return NoContent();
+        }
+
     }
 }

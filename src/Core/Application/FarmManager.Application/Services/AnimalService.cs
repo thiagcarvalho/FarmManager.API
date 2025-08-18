@@ -46,7 +46,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
-        throw new NotImplementedException();
+        _animalCommandRepository.UpdateAnimal(Id, CreateAnimal(animalInputModel));
     }
 
     private Animal CreateAnimal(AnimalInputModel animalInputModel)

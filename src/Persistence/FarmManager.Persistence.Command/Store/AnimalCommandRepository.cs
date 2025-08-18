@@ -29,6 +29,15 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateAnimal(Guid Id, Animal animal)
     {
-        throw new NotImplementedException();
+        var animalDataModel = _mapper.Map<AnimalDataModel>(animal);
+
+        MemoryStorage.Animals.TryGetValue(animalDataModel.RegisterNumber, out var existingAnimal);
+
+        if (existingAnimal == null)
+        {
+            throw new KeyNotFoundException($"Animal with RegisterNumber {animalDataModel.RegisterNumber} not found.");
+        }
+
+        MemoryStorage.Animals[animalDataModel.RegisterNumber] = animalDataModel;
     }
 }
