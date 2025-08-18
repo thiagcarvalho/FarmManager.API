@@ -1,7 +1,5 @@
 ﻿using FarmManager.Application.Contracts.Interfaces;
 using FarmManager.Application.Contracts.Models.InputModels;
-using FarmManager.Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,11 +7,11 @@ namespace FarmManager.WebApi.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AnimalController : ControllerBase
+    public class AnimalsController : ControllerBase
     {
         private readonly IAnimalService _animalService;
 
-        public AnimalController(IAnimalService animalService)
+        public AnimalsController(IAnimalService animalService)
         {
             _animalService = animalService;
         }
@@ -22,7 +20,7 @@ namespace FarmManager.WebApi.Controllers
         public ActionResult Get(Guid id)
         {
             var animal = _animalService.GetAnimal(id);
-            return animal is null 
+            return animal is null
                 ? NotFound($"Animal with ID {id} not found.")
                 : Ok(animal);
         }
