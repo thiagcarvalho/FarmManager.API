@@ -48,5 +48,11 @@ namespace FarmManager.WebApi.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+            _animalService.DeleteAnimal(id);
+            return NoContent();
+        }
     }
 }

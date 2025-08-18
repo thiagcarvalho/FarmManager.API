@@ -27,6 +27,8 @@ public class AnimalService : IAnimalService
         _animalFactory = animalFactory;
         _mapper = mapper;
     }
+
+
     public List<AnimalViewModel> GetAllAnimals()
     {
         return _animalQueryRepository.GetAllAnimals();
@@ -47,6 +49,11 @@ public class AnimalService : IAnimalService
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
         _animalCommandRepository.UpdateAnimal(Id, CreateAnimal(animalInputModel));
+    }
+
+    public void DeleteAnimal(Guid Id)
+    {
+        _animalCommandRepository.DeleteAnimal(Id);
     }
 
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
