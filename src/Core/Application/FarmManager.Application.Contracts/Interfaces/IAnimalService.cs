@@ -9,4 +9,5 @@ public interface IAnimalService
     void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
+    void DeleteAnimal(Guid Id);
 }

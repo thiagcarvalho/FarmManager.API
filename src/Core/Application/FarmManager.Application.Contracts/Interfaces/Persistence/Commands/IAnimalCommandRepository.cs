@@ -6,4 +6,5 @@ public interface IAnimalCommandRepository
 {
     Guid SaveAnimal(Animal animal);
     void UpdateAnimal(Guid Id, Animal animal);
+    void DeleteAnimal(Guid Id);
 }

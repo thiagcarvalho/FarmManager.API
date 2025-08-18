@@ -15,6 +15,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         _mapper = mapper;
     }
 
+
     public Guid SaveAnimal(Animal animal)
     {
         var animalDataModel = _mapper.Map<AnimalDataModel>(animal);
@@ -39,5 +40,17 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         }
 
         MemoryStorage.Animals[animalDataModel.RegisterNumber] = animalDataModel;
+    }
+
+    public void DeleteAnimal(Guid Id)
+    {
+        var animalDataModel = MemoryStorage.Animals.Values.FirstOrDefault(a => a.Id == Id);
+
+        if (animalDataModel == null)
+        {
+            throw new KeyNotFoundException($"Animal with Id {Id} not found.");
+        }
+
+        MemoryStorage.Animals.Remove(animalDataModel.RegisterNumber);
     }
 }
