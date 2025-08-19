@@ -16,7 +16,10 @@ namespace FarmManager.WebApi.Controllers
             _animalService = animalService;
         }
 
+        
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Get(Guid id)
         {
             var animal = _animalService.GetAnimal(id);
@@ -26,6 +29,7 @@ namespace FarmManager.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult GetAll()
         {
             var animals = _animalService.GetAllAnimals();
@@ -33,12 +37,18 @@ namespace FarmManager.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult Post([Required] AnimalInputModel animalInputModel)
         {
             return Created($"/api/v1/Animal/{_animalService.SaveAnimal(animalInputModel)}", null);
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Put(
             [FromRoute] Guid id, 
             [FromBody, Required] AnimalInputModel animalInputModel)
@@ -49,6 +59,8 @@ namespace FarmManager.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Delete(Guid id)
         {
             _animalService.DeleteAnimal(id);
