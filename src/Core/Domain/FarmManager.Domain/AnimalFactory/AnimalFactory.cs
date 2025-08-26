@@ -17,4 +17,19 @@ public class AnimalFactory : IAnimalFactory
             Birthday = birthday
         };
     }
+
+    public Cow Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool isPregnant, bool hasCalf, string? name, bool isMilking)
+    {
+        return new Cow(id, registerNumber, weight, type, birthday, name, isPregnant, hasCalf, isMilking)
+        {
+            Id = id ?? Guid.NewGuid(),
+            RegisterNumber = registerNumber,
+            Weight = weight,
+            Birthday = birthday,
+            IsPregnant = isPregnant,
+            HasCalf = hasCalf,
+            Name = name,
+            IsMilking = isMilking
+        };
+    }
 }

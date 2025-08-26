@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FarmManager.Domain.Interfaces
+namespace FarmManager.Domain.Interfaces;
+
+public interface ICow : IAnimal
 {
-    public interface ICow : IAnimal
-    {
-        bool IsPregnant { get; set; }
-        bool HasCalf { get; set; }
-        string? Name { get; set; }
-        bool IsMilking { get; set; }
-    }
+    bool IsPregnant { get; set; }
+    bool HasCalf { get; set; }
+    string? Name { get; set; }
+    bool IsMilking { get; set; }
 }

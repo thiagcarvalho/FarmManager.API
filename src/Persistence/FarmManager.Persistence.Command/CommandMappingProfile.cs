@@ -11,5 +11,11 @@ public class CommandMappingProfile : Profile
     {
         CreateMap<Animal, AnimalDataModel>()
             .ForMember(dest => dest.Weight, opt => opt.MapFrom(src => src.Weight.Value));
+        CreateMap<Cow, CowDataModel>()
+            .IncludeBase<Animal, AnimalDataModel>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.IsMilking, opt => opt.MapFrom(src => src.IsMilking))
+            .ForMember(dest => dest.IsPregnant, opt => opt.MapFrom(src => src.IsPregnant))
+            .ForMember(dest => dest.HasCalf, opt => opt.MapFrom(src => src.HasCalf));
     }
 }
