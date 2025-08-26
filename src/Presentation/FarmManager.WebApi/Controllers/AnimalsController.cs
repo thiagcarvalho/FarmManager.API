@@ -67,14 +67,6 @@ namespace FarmManager.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPost("cows")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult PostCow([FromBody, Required] CowInputModel cowInputModel)
-        {
-            return Created($"/api/v1/Animal/{_animalService.SaveCow(cowInputModel)}", null);
-        }
 
         [HttpGet("cows/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -87,5 +79,34 @@ namespace FarmManager.WebApi.Controllers
                 : Ok(animal);
         }
 
+        [HttpGet("cows")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult GetAllCows()
+        {
+            var cows = _animalService.GetAllCows();
+            return Ok(cows);
+        }
+
+        [HttpPost("cows")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public ActionResult PostCow([FromBody, Required] CowInputModel cowInputModel)
+        {
+            return Created($"/api/v1/Animal/{_animalService.SaveCow(cowInputModel)}", null);
+        }
+
+        [HttpPut("cows/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult PutCow(
+            [FromRoute] Guid id,
+            [FromBody, Required] CowInputModel cowInputModel)
+        {
+            cowInputModel.Id = id;
+            _animalService.UpdateCow(id, cowInputModel);
+            return NoContent();
+        }
     }
 }

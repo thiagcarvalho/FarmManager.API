@@ -8,8 +8,10 @@ public interface IAnimalService
     Guid SaveAnimal(AnimalInputModel animalInputModel);
     Guid SaveCow(CowInputModel cowInputModel);
     void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel);
+    void UpdateCow(Guid Id, CowInputModel cowInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
     CowViewModel? GetCow(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
+    List<CowViewModel> GetAllCows();
     void DeleteAnimal(Guid Id);
 }

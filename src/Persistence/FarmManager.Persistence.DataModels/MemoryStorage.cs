@@ -6,16 +6,20 @@ public static class MemoryStorage
 {
     public static Dictionary<int, AnimalDataModel> Animals = new Dictionary<int, AnimalDataModel>
     {
-        [1] = new AnimalDataModel
+        [1] = new CowDataModel
         {
             Id = Guid.NewGuid(),
-            RegisterNumber = 1,
-            Age = 2,
-            Weight = 150.5m,
+            RegisterNumber = 6,
+            Weight = 680.0m,
+            Birthday = new DateTime(2022, 6, 25),
             Type = "Cow",
-            Birthday = new DateTime(2021, 5, 20),
+            IsPregnant = false,
+            Age = 3,
+            HasCalf = true,
+            Name = "Estrela",
+            IsMilking = false,
             CreatedBy = "System",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = DateTime.UtcNow
         },
         [2] = new AnimalDataModel
         {
