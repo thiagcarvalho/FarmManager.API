@@ -79,7 +79,7 @@ public class AnimalService : IAnimalService
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
     {
         return _animalFactory.Create(
-            null,
+            animalInputModel.Id ?? null,
             animalInputModel.RegisterNumber,
             new Arroba(animalInputModel.Weight),
             animalInputModel.Type,
@@ -89,7 +89,7 @@ public class AnimalService : IAnimalService
     private Cow CreateCow(CowInputModel cowInputModel)
     {
         return _animalFactory.Create(
-            null,
+            cowInputModel.Id ?? null,
             cowInputModel.RegisterNumber,
             new Arroba(cowInputModel.Weight),
             cowInputModel.Type,
