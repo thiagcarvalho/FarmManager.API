@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Domain.Entities;
+using FarmManager.Domain.Interfaces;
 using FarmManager.Persistence.DataModels;
 using FarmManager.Persistence.DataModels.Store;
 
@@ -23,7 +24,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         animalDataModel.CreatedAt = DateTime.UtcNow;
         animalDataModel.CreatedBy = "System";
 
-        MemoryStorage.Animals.Add(animalDataModel.RegisterNumber, animalDataModel);
+        MemoryStorage.Animals.Add(DictLen(), animalDataModel);
 
         return animalDataModel.Id;
     }
@@ -52,5 +53,22 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         }
 
         MemoryStorage.Animals.Remove(animalDataModel.RegisterNumber);
+    }
+
+    public Guid SaveCow(Cow cow)
+    {
+        var cowDataModel = _mapper.Map<CowDataModel>(cow);
+
+        cowDataModel.CreatedAt = DateTime.UtcNow;
+        cowDataModel.CreatedBy = "System";
+
+        MemoryStorage.Animals.Add(DictLen(), cowDataModel);
+
+        return cowDataModel.Id;
+    }
+
+    private int DictLen()
+    {
+        return MemoryStorage.Animals.Count + 1;
     }
 }

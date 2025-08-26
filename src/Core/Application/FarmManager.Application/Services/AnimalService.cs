@@ -28,7 +28,6 @@ public class AnimalService : IAnimalService
         _mapper = mapper;
     }
 
-
     public List<AnimalViewModel> GetAllAnimals()
     {
         return _animalQueryRepository.GetAllAnimals();
@@ -56,6 +55,17 @@ public class AnimalService : IAnimalService
         _animalCommandRepository.DeleteAnimal(Id);
     }
 
+    public Guid SaveCow(CowInputModel cowInputModel)
+    {
+        var cow = CreateCow(cowInputModel);
+
+        return _animalCommandRepository.SaveCow(cow);
+    }
+    public CowViewModel? GetCow(Guid Id)
+    {
+        return _animalQueryRepository.GetCow(Id);
+    }
+
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
     {
         return _animalFactory.Create(
@@ -65,4 +75,19 @@ public class AnimalService : IAnimalService
             animalInputModel.Type,
             animalInputModel.Birthday);
     }
+
+    private Cow CreateCow(CowInputModel cowInputModel)
+    {
+        return _animalFactory.Create(
+            null,
+            cowInputModel.RegisterNumber,
+            new Arroba(cowInputModel.Weight),
+            cowInputModel.Type,
+            cowInputModel.Birthday,
+            cowInputModel.IsPregnant,
+            cowInputModel.HasCalf,
+            cowInputModel.Name,
+            cowInputModel.IsMilking);
+    }
 }
+

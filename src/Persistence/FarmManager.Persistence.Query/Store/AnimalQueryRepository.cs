@@ -33,4 +33,14 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
         return _mapper.Map<AnimalViewModel?>(animal);
     }
+
+    public CowViewModel? GetCow(Guid Id)
+    {
+        var cow = MemoryStorage
+             .Animals
+             .Values
+             .FirstOrDefault(a => a.Id == Id);
+
+        return _mapper.Map<CowViewModel?>(cow);
+    }
 }

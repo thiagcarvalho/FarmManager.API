@@ -9,5 +9,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<AnimalDataModel, AnimalViewModel>(MemberList.Destination).ReverseMap();
+        CreateMap<CowDataModel, CowViewModel>(MemberList.Destination).ReverseMap();
     }
 }
