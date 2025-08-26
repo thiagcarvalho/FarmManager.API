@@ -16,7 +16,6 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         _mapper = mapper;
     }
 
-
     public Guid SaveAnimal(Animal animal)
     {
         var animalDataModel = _mapper.Map<AnimalDataModel>(animal);
@@ -31,28 +30,16 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateAnimal(Guid Id, Animal animal)
     {
+        int id = FindAnimalKeyInDictionary(Id);
         var animalDataModel = _mapper.Map<AnimalDataModel>(animal);
-
-        MemoryStorage.Animals.TryGetValue(animalDataModel.RegisterNumber, out var existingAnimal);
-
-        if (existingAnimal == null)
-        {
-            throw new KeyNotFoundException($"Animal with RegisterNumber {animalDataModel.RegisterNumber} not found.");
-        }
 
         MemoryStorage.Animals[animalDataModel.RegisterNumber] = animalDataModel;
     }
 
     public void DeleteAnimal(Guid Id)
     {
-        var animalDataModel = MemoryStorage.Animals.Values.FirstOrDefault(a => a.Id == Id);
-
-        if (animalDataModel == null)
-        {
-            throw new KeyNotFoundException($"Animal with Id {Id} not found.");
-        }
-
-        MemoryStorage.Animals.Remove(animalDataModel.RegisterNumber);
+        int id = FindAnimalKeyInDictionary(Id);
+        MemoryStorage.Animals.Remove(id);
     }
 
     public Guid SaveCow(Cow cow)
@@ -66,9 +53,29 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
         return cowDataModel.Id;
     }
+    public void UpdateCow(Guid Id, Cow cow)
+    {
+        int id = FindAnimalKeyInDictionary(Id);
+        var cowDataModel = _mapper.Map<CowDataModel>(cow);
+
+        MemoryStorage.Animals[id] = cowDataModel;
+    }
+
+    private int FindAnimalKeyInDictionary(Guid animalId)
+    {
+        var kvp = MemoryStorage.Animals.FirstOrDefault(kvp => kvp.Value.Id == animalId);
+
+        if (kvp.Value == null)
+        {
+            throw new KeyNotFoundException($"Animal with Id {animalId} not found in dictionary.");
+        }
+
+        return kvp.Key;
+    }
 
     private int DictLen()
     {
         return MemoryStorage.Animals.Count + 1;
     }
+
 }

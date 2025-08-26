@@ -7,4 +7,5 @@ public interface IAnimalQueryRepository
     AnimalViewModel? GetAnimal(Guid Id);
     CowViewModel? GetCow(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
+    List<CowViewModel> GetAllCows();
 }
