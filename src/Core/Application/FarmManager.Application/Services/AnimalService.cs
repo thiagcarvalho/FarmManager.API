@@ -84,7 +84,7 @@ public class AnimalService : IAnimalService
         }
 
         var calf = CreateCalf(calfInputModel);
-        return _animalCommandRepository.SaveAnimal(calf);
+        return _animalCommandRepository.SaveCalf(calf);
     }
 
     private Animal CreateAnimal(AnimalInputModel animalInputModel)

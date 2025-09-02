@@ -60,6 +60,17 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
         MemoryStorage.Animals[id] = cowDataModel;
     }
+    public Guid SaveCalf(Calf calf)
+    {
+        var calfDataModel = _mapper.Map<CalfDataModel>(calf);
+
+        calfDataModel.CreatedAt = DateTime.UtcNow;
+        calfDataModel.CreatedBy = "System";
+
+        MemoryStorage.Animals.Add(DictLen(), calfDataModel);
+
+        return calfDataModel.Id;
+    }
 
     private int FindAnimalKeyInDictionary(Guid animalId)
     {

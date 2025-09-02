@@ -17,5 +17,10 @@ public class CommandMappingProfile : Profile
             .ForMember(dest => dest.IsMilking, opt => opt.MapFrom(src => src.IsMilking))
             .ForMember(dest => dest.IsPregnant, opt => opt.MapFrom(src => src.IsPregnant))
             .ForMember(dest => dest.HasCalf, opt => opt.MapFrom(src => src.HasCalf));
+
+        CreateMap<Calf, CalfDataModel>()
+            .IncludeBase<Animal, AnimalDataModel>()
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+            .ForMember(dest => dest.MotherNumber, opt => opt.MapFrom(src => src.MotherNumber));
     }
 }
