@@ -76,6 +76,17 @@ public class AnimalService : IAnimalService
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
 
+    public Guid SaveCalf(CalfInputModel calfInputModel)
+    {
+        if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
+        {
+            throw new KeyNotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
+        }
+
+        var calf = CreateCalf(calfInputModel);
+        return _animalCommandRepository.SaveAnimal(calf);
+    }
+
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
     {
         return _animalFactory.Create(
@@ -99,5 +110,16 @@ public class AnimalService : IAnimalService
             cowInputModel.Name,
             cowInputModel.IsMilking);
     }
-}
 
+    private Calf CreateCalf(CalfInputModel calfInputModel)
+    { 
+        return _animalFactory.Create(
+            calfInputModel.Id ?? null,
+            calfInputModel.RegisterNumber,
+            new Arroba(calfInputModel.Weight),
+            calfInputModel.Type,
+            calfInputModel.Birthday,
+            calfInputModel.Gender,
+            calfInputModel.MotherNumber);
+    }
+}

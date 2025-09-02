@@ -7,6 +7,7 @@ public interface IAnimalService
 {
     Guid SaveAnimal(AnimalInputModel animalInputModel);
     Guid SaveCow(CowInputModel cowInputModel);
+    Guid SaveCalf(CalfInputModel calfInputModel);
     void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel);
     void UpdateCow(Guid Id, CowInputModel cowInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
