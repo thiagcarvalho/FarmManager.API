@@ -93,7 +93,7 @@ namespace FarmManager.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult PostCow([FromBody, Required] CowInputModel cowInputModel)
         {
-            return Created($"/api/v1/Animal/{_animalService.SaveCow(cowInputModel)}", null);
+            return Created($"/api/v1/Animal/cows/{_animalService.SaveCow(cowInputModel)}", null);
         }
 
         [HttpPut("cows/{id}")]
@@ -108,5 +108,15 @@ namespace FarmManager.WebApi.Controllers
             _animalService.UpdateCow(id, cowInputModel);
             return NoContent();
         }
+
+        [HttpPost("calves")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public ActionResult PostCalves([FromBody, Required] CalfInputModel calfInputModel)
+        {
+            return Created($"/api/v1/Animal/calves/{_animalService.SaveCalf(calfInputModel)}", null);
+        }
+
     }
 }
