@@ -1,0 +1,56 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# ASP.NET temporary files
+**/App_Data/
+**/App_Start/
+**/App_Code/
+**/App_Browsers/
+**/App_GlobalResources/
+**/App_LocalResources/
+**/App_WebReferences/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Rider
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+*.VisualState.xml
+*.TestResult.xml
+*.cache
+*.vsmdi
+
+# Others
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+.vs/
