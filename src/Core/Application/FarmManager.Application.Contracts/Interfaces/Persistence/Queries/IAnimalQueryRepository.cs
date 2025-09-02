@@ -8,4 +8,5 @@ public interface IAnimalQueryRepository
     CowViewModel? GetCow(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
     List<CowViewModel> GetAllCows();
+    bool CowExists(int registerNumber);
 }
