@@ -32,4 +32,18 @@ public class AnimalFactory : IAnimalFactory
             IsMilking = isMilking
         };
     }
+
+    public Calf Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool gender, int motherNumber)
+    {
+        return new Calf(id, registerNumber, weight, type, birthday, gender, motherNumber)
+        {
+            Id = id ?? Guid.NewGuid(),
+            RegisterNumber = registerNumber,
+            Weight = weight,
+            Type = type,
+            Birthday = birthday,
+            Gender = gender,
+            MotherNumber = motherNumber
+        };
+    }
 }
