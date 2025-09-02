@@ -44,6 +44,15 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
         return _mapper.Map<CowViewModel?>(cow);
     }
+    public CalfViewModel? GetCalf(Guid Id)
+    {
+        var calf = MemoryStorage
+             .Animals
+             .Values
+             .FirstOrDefault(a => a.Id == Id);
+
+        return _mapper.Map<CalfViewModel?>(calf);
+    }
 
     public List<CowViewModel> GetAllCows()
     {
@@ -66,4 +75,5 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
         return exists;
     }
+
 }

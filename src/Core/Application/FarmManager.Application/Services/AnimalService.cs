@@ -87,6 +87,11 @@ public class AnimalService : IAnimalService
         return _animalCommandRepository.SaveCalf(calf);
     }
 
+    public CalfViewModel? GetCalf(Guid Id)
+    {
+        return _animalQueryRepository.GetCalf(Id);
+    }
+
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
     {
         return _animalFactory.Create(

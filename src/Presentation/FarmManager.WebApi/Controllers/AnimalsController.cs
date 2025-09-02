@@ -118,5 +118,15 @@ namespace FarmManager.WebApi.Controllers
             return Created($"/api/v1/Animal/calves/{_animalService.SaveCalf(calfInputModel)}", null);
         }
 
+        [HttpGet("calves/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetCalf(Guid id)
+        {
+            var animal = _animalService.GetCalf(id);
+            return animal is null
+                ? NotFound($"Calf with ID {id} not found.")
+                : Ok(animal);
+        }
     }
 }
