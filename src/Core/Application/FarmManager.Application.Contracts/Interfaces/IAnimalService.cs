@@ -12,6 +12,7 @@ public interface IAnimalService
     void UpdateCow(Guid Id, CowInputModel cowInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
     CowViewModel? GetCow(Guid Id);
+    CalfViewModel? GetCalf(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
     List<CowViewModel> GetAllCows();
     void DeleteAnimal(Guid Id);
