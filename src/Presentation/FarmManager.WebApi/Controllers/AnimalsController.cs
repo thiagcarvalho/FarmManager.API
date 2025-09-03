@@ -109,15 +109,6 @@ namespace FarmManager.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpPost("calves")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public ActionResult PostCalves([FromBody, Required] CalfInputModel calfInputModel)
-        {
-            return Created($"/api/v1/Animal/calves/{_animalService.SaveCalf(calfInputModel)}", null);
-        }
-
         [HttpGet("calves/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -128,5 +119,36 @@ namespace FarmManager.WebApi.Controllers
                 ? NotFound($"Calf with ID {id} not found.")
                 : Ok(animal);
         }
+
+        [HttpGet("calves")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult GetAllCalves()
+        {
+            var cows = _animalService.GetAllCalves();
+            return Ok(cows);
+        }
+
+        [HttpPost("calves")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public ActionResult PostCalves([FromBody, Required] CalfInputModel calfInputModel)
+        {
+            return Created($"/api/v1/Animal/calves/{_animalService.SaveCalf(calfInputModel)}", null);
+        }
+
+        [HttpPut("calves/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult PutCalf(
+            [FromRoute] Guid id,
+            [FromBody, Required] CalfInputModel calfInputModel)
+        {
+            calfInputModel.Id = id;
+            _animalService.UpdateCalf(id, calfInputModel);
+            return NoContent();
+        }
+
     }
 }

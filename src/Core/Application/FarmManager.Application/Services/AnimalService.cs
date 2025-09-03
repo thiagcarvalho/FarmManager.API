@@ -76,20 +76,37 @@ public class AnimalService : IAnimalService
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
 
+    public CalfViewModel? GetCalf(Guid Id)
+    {
+        return _animalQueryRepository.GetCalf(Id);
+    }
+
+    public List<CalfViewModel> GetAllCalves()
+    {
+        return _animalQueryRepository.GetAllCalves();
+    }
+
     public Guid SaveCalf(CalfInputModel calfInputModel)
     {
-        if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
-        {
-            throw new KeyNotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
-        }
+        VerifyMotherNumber(calfInputModel);
 
         var calf = CreateCalf(calfInputModel);
         return _animalCommandRepository.SaveCalf(calf);
     }
 
-    public CalfViewModel? GetCalf(Guid Id)
+    public void UpdateCalf(Guid Id, CalfInputModel calfInputModel)
     {
-        return _animalQueryRepository.GetCalf(Id);
+        VerifyMotherNumber(calfInputModel);
+
+        _animalCommandRepository.UpdateCalf(Id, CreateCalf(calfInputModel));
+    }
+
+    private void VerifyMotherNumber(CalfInputModel calfInputModel)
+    {
+        if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
+        {
+            throw new KeyNotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
+        }
     }
 
     private Animal CreateAnimal(AnimalInputModel animalInputModel)
@@ -127,4 +144,5 @@ public class AnimalService : IAnimalService
             calfInputModel.Gender,
             calfInputModel.MotherNumber);
     }
+
 }

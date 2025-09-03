@@ -44,16 +44,6 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
         return _mapper.Map<CowViewModel?>(cow);
     }
-    public CalfViewModel? GetCalf(Guid Id)
-    {
-        var calf = MemoryStorage
-             .Animals
-             .Values
-             .FirstOrDefault(a => a.Id == Id);
-
-        return _mapper.Map<CalfViewModel?>(calf);
-    }
-
     public List<CowViewModel> GetAllCows()
     {
         var cows = MemoryStorage
@@ -64,6 +54,28 @@ public class AnimalQueryRepository : IAnimalQueryRepository
             .ToList();
 
         return _mapper.Map<List<CowViewModel>>(cows);
+    }
+
+    public CalfViewModel? GetCalf(Guid Id)
+    {
+        var calf = MemoryStorage
+             .Animals
+             .Values
+             .FirstOrDefault(a => a.Id == Id);
+
+        return _mapper.Map<CalfViewModel?>(calf);
+    }
+
+    public List<CalfViewModel> GetAllCalves()
+    {
+        var calves = MemoryStorage
+            .Animals
+            .Values
+            .Where(a => a.Type == "Calf")
+            .OfType<CalfDataModel>()
+            .ToList();
+
+        return _mapper.Map<List<CalfViewModel>>(calves);
     }
 
     public bool CowExists(int registerNumber)
