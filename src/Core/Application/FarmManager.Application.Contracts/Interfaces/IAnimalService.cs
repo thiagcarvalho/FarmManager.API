@@ -10,6 +10,7 @@ public interface IAnimalService
     Guid SaveCalf(CalfInputModel calfInputModel);
     void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel);
     void UpdateCow(Guid Id, CowInputModel cowInputModel);
+    void UpdateCalf(Guid Id, CalfInputModel calfInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
     CowViewModel? GetCow(Guid Id);
     CalfViewModel? GetCalf(Guid Id);

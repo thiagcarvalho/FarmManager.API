@@ -53,6 +53,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
         return cowDataModel.Id;
     }
+
     public void UpdateCow(Guid Id, Cow cow)
     {
         int id = FindAnimalKeyInDictionary(Id);
@@ -60,6 +61,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
         MemoryStorage.Animals[id] = cowDataModel;
     }
+
     public Guid SaveCalf(Calf calf)
     {
         var calfDataModel = _mapper.Map<CalfDataModel>(calf);
@@ -70,6 +72,14 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         MemoryStorage.Animals.Add(DictLen(), calfDataModel);
 
         return calfDataModel.Id;
+    }
+
+    public void UpdateCalf(Guid Id, Calf calf)
+    {
+        int id = FindAnimalKeyInDictionary(Id);
+        var calfDataModel = _mapper.Map<CalfDataModel>(calf);
+
+        MemoryStorage.Animals[id] = calfDataModel;
     }
 
     private int FindAnimalKeyInDictionary(Guid animalId)

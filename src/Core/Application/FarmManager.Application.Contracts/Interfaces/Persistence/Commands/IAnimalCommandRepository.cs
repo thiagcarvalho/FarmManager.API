@@ -9,6 +9,7 @@ public interface IAnimalCommandRepository
     Guid SaveCalf(Calf calf);
     void UpdateAnimal(Guid Id, Animal animal);
     void UpdateCow(Guid Id, Cow cow);
+    void UpdateCalf(Guid Id, Calf calf);
     void DeleteAnimal(Guid Id);
 
 }
