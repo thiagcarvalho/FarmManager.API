@@ -120,6 +120,14 @@ namespace FarmManager.WebApi.Controllers
                 : Ok(animal);
         }
 
+        [HttpGet("calves")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult GetAllCalves()
+        {
+            var cows = _animalService.GetAllCalves();
+            return Ok(cows);
+        }
+
         [HttpPost("calves")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

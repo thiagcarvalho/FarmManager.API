@@ -75,9 +75,15 @@ public class AnimalService : IAnimalService
     {
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
+
     public CalfViewModel? GetCalf(Guid Id)
     {
         return _animalQueryRepository.GetCalf(Id);
+    }
+
+    public List<CalfViewModel> GetAllCalves()
+    {
+        return _animalQueryRepository.GetAllCalves();
     }
 
     public Guid SaveCalf(CalfInputModel calfInputModel)
