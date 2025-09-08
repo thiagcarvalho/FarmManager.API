@@ -46,4 +46,17 @@ public class AnimalFactory : IAnimalFactory
             MotherNumber = motherNumber
         };
     }
+
+    public Bull Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, string name)
+    {
+        return new Bull(id, registerNumber, weight, type, birthday, name)
+        {
+            Id = id ?? Guid.NewGuid(),
+            RegisterNumber = registerNumber,
+            Weight = weight,
+            Type = type,
+            Birthday = birthday,
+            Name = name
+        };
+    }
 }
