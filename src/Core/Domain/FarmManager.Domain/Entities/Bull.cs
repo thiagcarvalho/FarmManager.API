@@ -3,7 +3,7 @@ using FarmManager.Domain.ValueObject;
 
 namespace FarmManager.Domain.Entities;
 
-public class Bull: Animal, IBull
+public class Bull : Animal, IBull
 {
     public string Name { get; set; }
 
