@@ -42,7 +42,7 @@ namespace FarmManager.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult Post([Required] AnimalInputModel animalInputModel)
         {
-            return Created($"/api/v1/Animal/{_animalService.SaveAnimal(animalInputModel)}", null);
+            return Created($"/api/v1/Animals/{_animalService.SaveAnimal(animalInputModel)}", null);
         }
 
         [HttpPut("{id}")]
@@ -93,7 +93,7 @@ namespace FarmManager.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult PostCow([FromBody, Required] CowInputModel cowInputModel)
         {
-            return Created($"/api/v1/Animal/cows/{_animalService.SaveCow(cowInputModel)}", null);
+            return Created($"/api/v1/Animals/cows/{_animalService.SaveCow(cowInputModel)}", null);
         }
 
         [HttpPut("cows/{id}")]
@@ -134,7 +134,7 @@ namespace FarmManager.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public ActionResult PostCalves([FromBody, Required] CalfInputModel calfInputModel)
         {
-            return Created($"/api/v1/Animal/calves/{_animalService.SaveCalf(calfInputModel)}", null);
+            return Created($"/api/v1/Animals/calves/{_animalService.SaveCalf(calfInputModel)}", null);
         }
 
         [HttpPut("calves/{id}")]
@@ -147,6 +147,47 @@ namespace FarmManager.WebApi.Controllers
         {
             calfInputModel.Id = id;
             _animalService.UpdateCalf(id, calfInputModel);
+            return NoContent();
+        }
+
+        [HttpGet("bulls/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetBull(Guid id)
+        {
+            var animal = _animalService.GetBull(id);
+            return animal is null
+                ? NotFound($"Bull with ID {id} not found.")
+                : Ok(animal);
+        }
+
+        [HttpGet("bulls")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult GetAllBulls()
+        {
+            var animals = _animalService.GetAllBulls();
+            return Ok(animals);
+        }
+
+        [HttpPost("bulls")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public ActionResult PostBull([Required] BullInputModel bullInputModel)
+        {
+            return Created($"/api/v1/Animals/bulls/{_animalService.SaveBull(bullInputModel)}", null);
+        }
+
+        [HttpPut("bulls/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult PutBull(
+            [FromRoute] Guid id,
+            [FromBody, Required] BullInputModel bullInputModel)
+        {
+            bullInputModel.Id = id;
+            _animalService.UpdateBull(id, bullInputModel);
             return NoContent();
         }
 

@@ -82,6 +82,26 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         MemoryStorage.Animals[id] = calfDataModel;
     }
 
+    public Guid SaveBull(Bull bull)
+    {
+        var bullDataModel = _mapper.Map<BullDataModel>(bull);
+
+        bullDataModel.CreatedAt = DateTime.UtcNow;
+        bullDataModel.CreatedBy = "System";
+
+        MemoryStorage.Animals.Add(DictLen(), bullDataModel);
+
+        return bullDataModel.Id;
+    }
+
+    public void UpdateBull(Guid Id, Bull bull)
+
+    {
+        int id = FindAnimalKeyInDictionary(Id);
+        var bullDataModel = _mapper.Map<BullDataModel>(bull);
+
+        MemoryStorage.Animals[id] = bullDataModel;
+    }
     private int FindAnimalKeyInDictionary(Guid animalId)
     {
         var kvp = MemoryStorage.Animals.FirstOrDefault(kvp => kvp.Value.Id == animalId);

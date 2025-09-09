@@ -11,6 +11,7 @@ public class CommandMappingProfile : Profile
     {
         CreateMap<Animal, AnimalDataModel>()
             .ForMember(dest => dest.Weight, opt => opt.MapFrom(src => src.Weight.Value));
+
         CreateMap<Cow, CowDataModel>()
             .IncludeBase<Animal, AnimalDataModel>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
@@ -22,5 +23,9 @@ public class CommandMappingProfile : Profile
             .IncludeBase<Animal, AnimalDataModel>()
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
             .ForMember(dest => dest.MotherNumber, opt => opt.MapFrom(src => src.MotherNumber));
+
+        CreateMap<Bull, BullDataModel>()
+            .IncludeBase<Animal, AnimalDataModel>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
     }
 }
