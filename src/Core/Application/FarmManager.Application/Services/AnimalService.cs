@@ -101,6 +101,28 @@ public class AnimalService : IAnimalService
         _animalCommandRepository.UpdateCalf(Id, CreateCalf(calfInputModel));
     }
 
+    public BullViewModel? GetBull(Guid Id)
+    {
+        return _animalQueryRepository.GetBull(Id);
+    }
+
+    public List<BullViewModel> GetAllBulls()
+    {
+        return _animalQueryRepository.GetAllBulls();
+    }
+
+    public Guid SaveBull(BullInputModel bullInputModel)
+    {
+        var bull = CreateBull(bullInputModel);
+
+        return _animalCommandRepository.SaveBull(bull);
+    }
+
+    public void UpdateBull(Guid Id, BullInputModel bullInputModel)
+    {
+        _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
+    }
+
     private void VerifyMotherNumber(CalfInputModel calfInputModel)
     {
         if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
@@ -145,4 +167,14 @@ public class AnimalService : IAnimalService
             calfInputModel.MotherNumber);
     }
 
+    private Bull CreateBull(BullInputModel bullInputModel)
+    {
+        return _animalFactory.Create(
+            bullInputModel.Id ?? null,
+            bullInputModel.RegisterNumber,
+            new Arroba(bullInputModel.Weight),
+            bullInputModel.Type,
+            bullInputModel.Birthday,
+            bullInputModel.Name ?? "");
+    }
 }

@@ -78,6 +78,28 @@ public class AnimalQueryRepository : IAnimalQueryRepository
         return _mapper.Map<List<CalfViewModel>>(calves);
     }
 
+    public BullViewModel? GetBull(Guid Id)
+    {
+        var bull = MemoryStorage
+             .Animals
+             .Values
+             .FirstOrDefault(a => a.Id == Id);
+
+        return _mapper.Map<BullViewModel?>(bull);
+    }
+
+    public List<BullViewModel> GetAllBulls()
+    {
+        var bulls = MemoryStorage
+            .Animals
+            .Values
+            .Where(a => a.Type == "Bull")
+            .OfType<BullDataModel>()
+            .ToList();
+
+        return _mapper.Map<List<BullViewModel>>(bulls);
+    }
+
     public bool CowExists(int registerNumber)
     {
         var exists = MemoryStorage
