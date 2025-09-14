@@ -4,6 +4,7 @@ using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Application.Contracts.Models.ViewModels;
+using FarmManager.Application.Exceptions;
 using FarmManager.Domain.Entities;
 using FarmManager.Domain.Interfaces.Factories;
 using FarmManager.Domain.ValueObject;
@@ -29,7 +30,13 @@ public class AnimalService : IAnimalService
     }
     public AnimalViewModel? GetAnimal(Guid Id)
     {
-        return _animalQueryRepository.GetAnimal(Id);
+        var animal = _animalQueryRepository.GetAnimal(Id);
+        if (animal == null)
+        {
+            throw new NotFoundException("Animal", Id);
+        }
+        
+        return animal;
     }
 
     public List<AnimalViewModel> GetAllAnimals()
@@ -56,7 +63,13 @@ public class AnimalService : IAnimalService
 
     public CowViewModel? GetCow(Guid Id)
     {
-        return _animalQueryRepository.GetCow(Id);
+        var cow = _animalQueryRepository.GetCow(Id);
+        if (cow == null)
+        {
+            throw new NotFoundException("Cow", Id);
+        }
+
+        return cow;
     }
 
     public List<CowViewModel> GetAllCows()
@@ -78,7 +91,13 @@ public class AnimalService : IAnimalService
 
     public CalfViewModel? GetCalf(Guid Id)
     {
-        return _animalQueryRepository.GetCalf(Id);
+        var calf = _animalQueryRepository.GetCalf(Id);
+        if (calf == null)
+        {
+            throw new NotFoundException("Calf", Id);
+        }
+
+        return calf;
     }
 
     public List<CalfViewModel> GetAllCalves()
@@ -103,7 +122,13 @@ public class AnimalService : IAnimalService
 
     public BullViewModel? GetBull(Guid Id)
     {
-        return _animalQueryRepository.GetBull(Id);
+        var bull = _animalQueryRepository.GetBull(Id);
+        if (bull == null)
+        {
+            throw new NotFoundException("Bull", Id);
+        }
+
+        return bull;
     }
 
     public List<BullViewModel> GetAllBulls()
