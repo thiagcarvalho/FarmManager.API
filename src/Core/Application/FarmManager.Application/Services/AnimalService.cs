@@ -53,9 +53,9 @@ public class AnimalService : IAnimalService
         return _animalCommandRepository.SaveAnimal(animal);
     }
 
-
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
+        VerifyAnimalExists(animalInputModel.RegisterNumber, "Animal");
         _animalCommandRepository.UpdateAnimal(Id, CreateAnimal(animalInputModel));
     }
 
@@ -91,6 +91,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateCow(Guid Id, CowInputModel cowInputModel)
     {
+        VerifyAnimalExists(cowInputModel.RegisterNumber, "Cow");
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
 
@@ -152,6 +153,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)
     {
+        VerifyAnimalExists(bullInputModel.RegisterNumber, "Bull");
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
     }
 
@@ -160,6 +162,14 @@ public class AnimalService : IAnimalService
         if (_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
         {
             throw new DuplicateResourceException("Animal", registerNumber);
+        }
+    }
+
+    private void VerifyAnimalExists(int registerNumber, string entity)
+    {
+        if (!_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
+        {
+            throw new NotFoundException($"The {entity} with register number {registerNumber} does not exist.");
         }
     }
 
