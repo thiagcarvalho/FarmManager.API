@@ -55,7 +55,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
-        VerifyAnimalExists(animalInputModel.RegisterNumber, "Animal");
+        VerifyAnimalExistsByType(animalInputModel.RegisterNumber, "Animal");
         _animalCommandRepository.UpdateAnimal(Id, CreateAnimal(animalInputModel));
     }
 
@@ -91,7 +91,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateCow(Guid Id, CowInputModel cowInputModel)
     {
-        VerifyAnimalExists(cowInputModel.RegisterNumber, "Cow");
+        VerifyAnimalExistsByType(cowInputModel.RegisterNumber, "Cow");
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
 
@@ -153,7 +153,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)
     {
-        VerifyAnimalExists(bullInputModel.RegisterNumber, "Bull");
+        VerifyAnimalExistsByType(bullInputModel.RegisterNumber, "Bull");
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
     }
 
@@ -165,7 +165,7 @@ public class AnimalService : IAnimalService
         }
     }
 
-    private void VerifyAnimalExists(int registerNumber, string entity)
+    private void VerifyAnimalExistsByType(int registerNumber, string entity)
     {
         if (!_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
         {
@@ -175,7 +175,7 @@ public class AnimalService : IAnimalService
 
     private void VerifyMotherNumber(CalfInputModel calfInputModel)
     {
-        if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
+        if (!_animalQueryRepository.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"))
         {
             throw new NotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
         }
@@ -209,7 +209,7 @@ public class AnimalService : IAnimalService
     { 
         return _animalFactory.Create(
             calfInputModel.Id ?? null,
-            calfInputModel.RegisterNumber,
+            calfInputModel.MotherNumber,
             new Arroba(calfInputModel.Weight),
             calfInputModel.Type,
             calfInputModel.Birthday,
