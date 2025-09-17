@@ -18,7 +18,7 @@ public class LoggerMiddleware
         var method = context.Request.Method;
         var path = context.Request.Path;
 
-        _logger.LogInformation("Calling Controller: {Route} - Method: {Method} - Path: {Path} - HTTP {HttpMethod}", routeName, method, path, method);
+        _logger.LogInformation("Calling Controller: {Route} - Method: {Method} - Path: {Path}", routeName, method, path);
 
         await _next(context);
 
