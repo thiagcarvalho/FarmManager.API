@@ -46,10 +46,13 @@ public class AnimalService : IAnimalService
 
     public Guid SaveAnimal(AnimalInputModel animalInputModel)
     {
+        VerifyAnimalRegisterNumber(animalInputModel.RegisterNumber);
+
         var animal = CreateAnimal(animalInputModel);
 
         return _animalCommandRepository.SaveAnimal(animal);
     }
+
 
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
@@ -79,6 +82,8 @@ public class AnimalService : IAnimalService
 
     public Guid SaveCow(CowInputModel cowInputModel)
     {
+        VerifyAnimalRegisterNumber(cowInputModel.RegisterNumber);
+
         var cow = CreateCow(cowInputModel);
 
         return _animalCommandRepository.SaveCow(cow);
@@ -138,6 +143,8 @@ public class AnimalService : IAnimalService
 
     public Guid SaveBull(BullInputModel bullInputModel)
     {
+        VerifyAnimalRegisterNumber(bullInputModel.RegisterNumber);
+
         var bull = CreateBull(bullInputModel);
 
         return _animalCommandRepository.SaveBull(bull);
@@ -148,11 +155,19 @@ public class AnimalService : IAnimalService
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
     }
 
+    private void VerifyAnimalRegisterNumber(int registerNumber)
+    {
+        if (_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
+        {
+            throw new DuplicateResourceException("Animal", registerNumber);
+        }
+    }
+
     private void VerifyMotherNumber(CalfInputModel calfInputModel)
     {
         if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
         {
-            throw new KeyNotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
+            throw new NotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
         }
     }
 

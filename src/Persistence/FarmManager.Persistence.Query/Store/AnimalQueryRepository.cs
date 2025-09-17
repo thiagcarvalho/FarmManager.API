@@ -100,6 +100,16 @@ public class AnimalQueryRepository : IAnimalQueryRepository
         return _mapper.Map<List<BullViewModel>>(bulls);
     }
 
+    public bool AnimalExistsByRegisterNumber(int registerNumber)
+    {
+        var exists = MemoryStorage
+            .Animals
+            .Values
+            .Any(a => a.RegisterNumber == registerNumber);
+
+        return exists;
+    }
+
     public bool CowExists(int registerNumber)
     {
         var exists = MemoryStorage

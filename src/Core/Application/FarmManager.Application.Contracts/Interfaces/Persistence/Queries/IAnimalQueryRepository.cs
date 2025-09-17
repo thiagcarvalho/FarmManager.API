@@ -12,5 +12,6 @@ public interface IAnimalQueryRepository
     List<CowViewModel> GetAllCows();
     List<CalfViewModel> GetAllCalves();
     List<BullViewModel> GetAllBulls();
+    bool AnimalExistsByRegisterNumber(int registerNumber);
     bool CowExists(int registerNumber);
 }
