@@ -4,6 +4,7 @@ using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Application.Contracts.Models.ViewModels;
+using FarmManager.Application.Exceptions;
 using FarmManager.Domain.Entities;
 using FarmManager.Domain.Interfaces.Factories;
 using FarmManager.Domain.ValueObject;
@@ -29,7 +30,13 @@ public class AnimalService : IAnimalService
     }
     public AnimalViewModel? GetAnimal(Guid Id)
     {
-        return _animalQueryRepository.GetAnimal(Id);
+        var animal = _animalQueryRepository.GetAnimal(Id);
+        if (animal == null)
+        {
+            throw new NotFoundException("Animal", Id);
+        }
+        
+        return animal;
     }
 
     public List<AnimalViewModel> GetAllAnimals()
@@ -39,6 +46,8 @@ public class AnimalService : IAnimalService
 
     public Guid SaveAnimal(AnimalInputModel animalInputModel)
     {
+        VerifyAnimalRegisterNumber(animalInputModel.RegisterNumber);
+
         var animal = CreateAnimal(animalInputModel);
 
         return _animalCommandRepository.SaveAnimal(animal);
@@ -46,6 +55,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
     {
+        VerifyAnimalExistsByType(animalInputModel.RegisterNumber, "Animal");
         _animalCommandRepository.UpdateAnimal(Id, CreateAnimal(animalInputModel));
     }
 
@@ -56,7 +66,13 @@ public class AnimalService : IAnimalService
 
     public CowViewModel? GetCow(Guid Id)
     {
-        return _animalQueryRepository.GetCow(Id);
+        var cow = _animalQueryRepository.GetCow(Id);
+        if (cow == null)
+        {
+            throw new NotFoundException("Cow", Id);
+        }
+
+        return cow;
     }
 
     public List<CowViewModel> GetAllCows()
@@ -66,6 +82,8 @@ public class AnimalService : IAnimalService
 
     public Guid SaveCow(CowInputModel cowInputModel)
     {
+        VerifyAnimalRegisterNumber(cowInputModel.RegisterNumber);
+
         var cow = CreateCow(cowInputModel);
 
         return _animalCommandRepository.SaveCow(cow);
@@ -73,12 +91,19 @@ public class AnimalService : IAnimalService
 
     public void UpdateCow(Guid Id, CowInputModel cowInputModel)
     {
+        VerifyAnimalExistsByType(cowInputModel.RegisterNumber, "Cow");
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
     }
 
     public CalfViewModel? GetCalf(Guid Id)
     {
-        return _animalQueryRepository.GetCalf(Id);
+        var calf = _animalQueryRepository.GetCalf(Id);
+        if (calf == null)
+        {
+            throw new NotFoundException("Calf", Id);
+        }
+
+        return calf;
     }
 
     public List<CalfViewModel> GetAllCalves()
@@ -103,7 +128,13 @@ public class AnimalService : IAnimalService
 
     public BullViewModel? GetBull(Guid Id)
     {
-        return _animalQueryRepository.GetBull(Id);
+        var bull = _animalQueryRepository.GetBull(Id);
+        if (bull == null)
+        {
+            throw new NotFoundException("Bull", Id);
+        }
+
+        return bull;
     }
 
     public List<BullViewModel> GetAllBulls()
@@ -113,6 +144,8 @@ public class AnimalService : IAnimalService
 
     public Guid SaveBull(BullInputModel bullInputModel)
     {
+        VerifyAnimalRegisterNumber(bullInputModel.RegisterNumber);
+
         var bull = CreateBull(bullInputModel);
 
         return _animalCommandRepository.SaveBull(bull);
@@ -120,14 +153,31 @@ public class AnimalService : IAnimalService
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)
     {
+        VerifyAnimalExistsByType(bullInputModel.RegisterNumber, "Bull");
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
+    }
+
+    private void VerifyAnimalRegisterNumber(int registerNumber)
+    {
+        if (_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
+        {
+            throw new DuplicateResourceException("Animal", registerNumber);
+        }
+    }
+
+    private void VerifyAnimalExistsByType(int registerNumber, string entity)
+    {
+        if (!_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
+        {
+            throw new NotFoundException($"The {entity} with register number {registerNumber} does not exist.");
+        }
     }
 
     private void VerifyMotherNumber(CalfInputModel calfInputModel)
     {
-        if (!_animalQueryRepository.CowExists(calfInputModel.MotherNumber))
+        if (!_animalQueryRepository.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"))
         {
-            throw new KeyNotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
+            throw new NotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
         }
     }
 
@@ -159,7 +209,7 @@ public class AnimalService : IAnimalService
     { 
         return _animalFactory.Create(
             calfInputModel.Id ?? null,
-            calfInputModel.RegisterNumber,
+            calfInputModel.MotherNumber,
             new Arroba(calfInputModel.Weight),
             calfInputModel.Type,
             calfInputModel.Birthday,

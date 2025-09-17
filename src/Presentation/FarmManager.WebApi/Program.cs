@@ -9,6 +9,7 @@ using FarmManager.Persistence.Command;
 using FarmManager.Persistence.Command.Store;
 using FarmManager.Persistence.Query;
 using FarmManager.Persistence.Query.Store;
+using FarmManager.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<LoggerMiddleware>();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.MapControllers();
 
