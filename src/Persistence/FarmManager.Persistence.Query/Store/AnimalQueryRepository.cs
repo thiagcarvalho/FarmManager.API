@@ -119,16 +119,4 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
         return exists;
     }
-
-
-    public bool CowExists(int registerNumber)
-    {
-        var exists = MemoryStorage
-            .Animals
-            .Values
-            .Any(a => a.RegisterNumber == registerNumber && a.Type == "Cow");
-
-        return exists;
-    }
-
 }
