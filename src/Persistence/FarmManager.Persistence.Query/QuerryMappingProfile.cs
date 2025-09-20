@@ -4,9 +4,9 @@ using FarmManager.Persistence.DataModels.Store;
 
 namespace FarmManager.Persistence.Query;
 
-public class MappingProfile : Profile
+public class QuerryMappingProfile : Profile
 {
-    public MappingProfile()
+    public QuerryMappingProfile()
     {
         CreateMap<AnimalDataModel, AnimalViewModel>(MemberList.Destination).ReverseMap();
         CreateMap<CowDataModel, CowViewModel>(MemberList.Destination).ReverseMap();
