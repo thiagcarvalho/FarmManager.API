@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Persistence\FarmManager.Persistence.Command\FarmManager.Persistence.Command.csproj" />
     <ProjectReference Include="..\..\..\Persistence\FarmManager.Persistence.Query\FarmManager.Persistence.Query.csproj" />
     <ProjectReference Include="..\FarmManager.Application.Contracts\FarmManager.Application.Contracts.csproj" />
   </ItemGroup>
