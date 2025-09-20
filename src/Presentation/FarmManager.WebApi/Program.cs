@@ -1,7 +1,4 @@
-using AutoMapper;
 using FarmManager.Application;
-using FarmManager.Persistence.Command;
-using FarmManager.Persistence.Query;
 using FarmManager.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +9,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAutoMapper(typeof(QuerryMappingProfile),
-    typeof(CommandMappingProfile));
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddRepositoryServices(builder.Configuration);
