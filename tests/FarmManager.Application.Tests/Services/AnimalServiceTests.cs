@@ -7,28 +7,11 @@ using FarmManager.Application.Services;
 using FarmManager.Domain.Interfaces.Factories;
 using Moq;
 
-namespace FarmManager.Application.Tests;
+namespace FarmManager.Application.Tests.Services;
 
-public class AnimalServiceTests
+public class AnimalServiceTests : AnimalServiceTestBase
 {
-    private readonly Mock<IAnimalQueryRepository> _mockQueryRepository;
-    private readonly Mock<IAnimalCommandRepository> _mockCommandRepository;
-    private readonly Mock<IAnimalFactory> _mockAnimalFactory;
-    private readonly Mock<IMapper> _mockMapper;
-    private readonly AnimalService _animalService;
-
-    public AnimalServiceTests()
-    {
-        _mockQueryRepository = new Mock<IAnimalQueryRepository>();
-        _mockCommandRepository = new Mock<IAnimalCommandRepository>();
-        _mockAnimalFactory = new Mock<IAnimalFactory>();
-        _mockMapper = new Mock<IMapper>();
-        _animalService = new AnimalService(
-            _mockQueryRepository.Object,
-            _mockCommandRepository.Object,
-            _mockAnimalFactory.Object,
-            _mockMapper.Object);
-    }
+    
 
     [Fact]
     public void GetAnimal_WithValidId_ReturnsAnimalViewModel()
@@ -44,13 +27,13 @@ public class AnimalServiceTests
             Type = "Cow"
         };
 
-        _mockQueryRepository
+        MockQueryRepository
             .Setup(repo => repo.GetAnimal(It.IsAny<Guid>()))
             .Returns(expectedAnimal);
 
         //Act
 
-        var result = _animalService.GetAnimal(expectedAnimal.Id);
+        var result = AnimalService.GetAnimal(expectedAnimal.Id);
 
         //Assert
         Assert.NotNull(result);
@@ -61,7 +44,7 @@ public class AnimalServiceTests
         Assert.Equal(expectedAnimal.Birthday, result.Birthday);
         Assert.Equal(expectedAnimal.Type, result.Type);
 
-        _mockQueryRepository.Verify(x => x.GetAnimal(expectedAnimal.Id), Times.Once);   
+        MockQueryRepository.Verify(x => x.GetAnimal(expectedAnimal.Id), Times.Once);   
     }
 
     [Fact]
@@ -70,14 +53,14 @@ public class AnimalServiceTests
         // Arrange
         var animalId = Guid.NewGuid();
 
-        _mockQueryRepository
+        MockQueryRepository
             .Setup(x => x.GetAnimal(animalId))
             .Returns((AnimalViewModel?)null);
 
         // Act & Assert
-        var exception = Assert.Throws<NotFoundException>(() => _animalService.GetAnimal(animalId));
+        var exception = Assert.Throws<NotFoundException>(() => AnimalService.GetAnimal(animalId));
 
         Assert.Equal($"Entity \"Animal\" ({animalId}) was not found.", exception.Message);
-        _mockQueryRepository.Verify(x => x.GetAnimal(animalId), Times.Once);
+        MockQueryRepository.Verify(x => x.GetAnimal(animalId), Times.Once);
     }
 }
