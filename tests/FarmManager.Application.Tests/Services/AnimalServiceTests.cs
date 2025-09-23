@@ -1,14 +1,8 @@
-using AutoMapper;
-using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
-using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Application.Exceptions;
 using FarmManager.Application.Services;
-using FarmManager.Domain.Interfaces.Factories;
-using FarmManager.Domain.ValueObject;
 using Moq;
-using System.ComponentModel.DataAnnotations;
 
 namespace FarmManager.Application.Tests.Services;
 
@@ -240,4 +234,5 @@ public class AnimalServiceTests : AnimalServiceTestBase
         // Assert
         MockCommandRepository.Verify(x => x.DeleteAnimal(animalId), Times.Once);
     }
+
 }
