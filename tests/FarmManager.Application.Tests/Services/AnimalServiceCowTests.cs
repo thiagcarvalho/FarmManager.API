@@ -2,11 +2,6 @@
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Application.Exceptions;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FarmManager.Application.Tests.Services;
 
@@ -61,8 +56,8 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
         var cowId = Guid.NewGuid();
 
         MockQueryRepository
-            .Setup(x => x.GetAnimal(cowId))
-            .Returns((AnimalViewModel?)null);
+            .Setup(x => x.GetCow(cowId))
+            .Returns((CowViewModel?)null);
 
         // Act & Assert
         var exception = Assert.Throws<NotFoundException>(() => AnimalService.GetCow(cowId));
@@ -235,11 +230,11 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
             .Returns(true);
 
         // Act
-        AnimalService.UpdateAnimal(cowId, cowInputModel);
+        AnimalService.UpdateCow(cowId, cowInputModel);
 
         // Assert
         MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
-        MockCommandRepository.Verify(x => x.UpdateAnimal(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Once);
+        MockCommandRepository.Verify(x => x.UpdateCow(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Once);
     }
 
     [Fact]
@@ -264,9 +259,9 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
             .Returns(false);
 
         // Act & Assert
-        var exception = Assert.Throws<NotFoundException>(() => AnimalService.UpdateAnimal(cowId, cowInputModel));
-        Assert.Equal($"The Animal with register number {cowInputModel.RegisterNumber} does not exist.", exception.Message);
+        var exception = Assert.Throws<NotFoundException>(() => AnimalService.UpdateCow(cowId, cowInputModel));
+        Assert.Equal($"The Cow with register number {cowInputModel.RegisterNumber} does not exist.", exception.Message);
         MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
-        MockCommandRepository.Verify(x => x.UpdateAnimal(cowId, It.IsAny<Domain.Entities.Animal>()), Times.Never);
+        MockCommandRepository.Verify(x => x.UpdateCow(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Never);
     }
 }
