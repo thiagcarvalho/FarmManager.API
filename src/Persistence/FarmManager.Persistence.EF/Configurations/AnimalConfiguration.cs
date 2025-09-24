@@ -46,8 +46,8 @@ public class AnimalConfiguration : IEntityTypeConfiguration<AnimalDataModel>
             .HasMaxLength(100);
 
         builder.HasDiscriminator<string>("AnimalType")
-            .HasValue<AnimalDataModel>("Animal")
             .HasValue<CowDataModel>("Cow")
-            .HasValue<CalfDataModel>("Calf");
+            .HasValue<CalfDataModel>("Calf")
+            .HasValue<BullDataModel>("Bull");
     }
 }
