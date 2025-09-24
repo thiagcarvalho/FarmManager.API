@@ -8,8 +8,6 @@ public class AnimalConfiguration : IEntityTypeConfiguration<AnimalDataModel>
 {
     public void Configure(EntityTypeBuilder<AnimalDataModel> builder)
     {
-        builder.ToTable("Animals");
-
         builder.HasKey(a => a.Id);
 
         builder.Property(a => a.Id)

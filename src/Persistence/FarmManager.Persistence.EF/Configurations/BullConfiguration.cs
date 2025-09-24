@@ -8,8 +8,6 @@ public class BullConfiguration : IEntityTypeConfiguration<BullDataModel>
 {
     public void Configure(EntityTypeBuilder<BullDataModel> builder)
     {
-        builder.ToTable("Bulls");
-
         builder.HasOne<AnimalDataModel>()
             .WithOne()
             .HasForeignKey<BullDataModel>(b => b.Id)
