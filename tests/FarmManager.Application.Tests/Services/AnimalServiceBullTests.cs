@@ -110,7 +110,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
     }
 
     [Fact]
-    public void GettAllCows_ReturnsEmptyList()
+    public void GettAllBulls_ReturnsEmptyList()
     {
         // Arrange
         var expectedBull = new List<BullViewModel>();
@@ -128,7 +128,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
     }
 
     [Fact]
-    public void SaveBull_WithValidInput_ReturnsNewCowId()
+    public void SaveBull_WithValidInput_ReturnsNewBullId()
     {
         // Arrange
         var newBullId = Guid.NewGuid();
@@ -138,7 +138,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
             RegisterNumber = 1,
             Weight = 150.5m,
             Birthday = new DateTime(2020, 1, 1),
-            Type = "Cow",
+            Type = "Bull",
             Name = "Ferdinando",
         };
 
@@ -184,7 +184,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
     }
 
     [Fact]
-    public void UpdateBull_WithValidInput_CallsUpdateCow()
+    public void UpdateBull_WithValidInput_CallsUpdateBull()
     {
         // Arrange
         var bullId = Guid.NewGuid();
@@ -219,7 +219,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
             RegisterNumber = 1,
             Weight = 150.5m,
             Birthday = new DateTime(2020, 1, 1),
-            Type = "Cow",
+            Type = "Bull",
             Name = "Ferdinando",
         };
         MockQueryRepository
