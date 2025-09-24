@@ -44,10 +44,5 @@ public class AnimalConfiguration : IEntityTypeConfiguration<AnimalDataModel>
         builder.Property(a => a.UpdatedBy)
             .IsRequired(false)
             .HasMaxLength(100);
-
-        builder.HasDiscriminator<string>("AnimalType")
-            .HasValue<CowDataModel>("Cow")
-            .HasValue<CalfDataModel>("Calf")
-            .HasValue<BullDataModel>("Bull");
     }
 }

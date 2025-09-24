@@ -10,6 +10,11 @@ public class CalfConfiguration : IEntityTypeConfiguration<CalfDataModel>
     {
         builder.ToTable("Calves");
 
+        builder.HasOne<AnimalDataModel>()
+            .WithOne()
+            .HasForeignKey<CalfDataModel>(calf => calf.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(calf => calf.Gender)
             .IsRequired();
 

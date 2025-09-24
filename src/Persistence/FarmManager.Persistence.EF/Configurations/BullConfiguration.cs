@@ -10,6 +10,11 @@ public class BullConfiguration : IEntityTypeConfiguration<BullDataModel>
     {
         builder.ToTable("Bulls");
 
+        builder.HasOne<AnimalDataModel>()
+            .WithOne()
+            .HasForeignKey<BullDataModel>(b => b.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(b => b.Name)
             .HasMaxLength(100)
             .IsRequired(false);

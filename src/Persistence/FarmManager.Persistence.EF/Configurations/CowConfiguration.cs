@@ -10,6 +10,11 @@ public class CowConfiguration : IEntityTypeConfiguration<CowDataModel>
     {
         builder.ToTable("Cows");
 
+        builder.HasOne<AnimalDataModel>()
+            .WithOne()
+            .HasForeignKey<CowDataModel>(c => c.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(c => c.Name)
             .HasMaxLength(100)
             .IsRequired(false);
