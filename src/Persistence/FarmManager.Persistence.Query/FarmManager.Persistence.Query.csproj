@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Application\FarmManager.Application.Contracts\FarmManager.Application.Contracts.csproj" />
     <ProjectReference Include="..\FarmManager.Persistence.DataModels\FarmManager.Persistence.DataModels.csproj" />
+    <ProjectReference Include="..\FarmManager.Persistence.EF\FarmManager.Persistence.EF.csproj" />
   </ItemGroup>
 
 </Project>

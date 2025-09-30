@@ -3,33 +3,35 @@ using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Persistence.DataModels;
 using FarmManager.Persistence.DataModels.Store;
+using FarmManager.Persistence.EF.Context;
+using System.Runtime.CompilerServices;
 
 namespace FarmManager.Persistence.Query.Store;
 
 public class AnimalQueryRepository : IAnimalQueryRepository
 {
+    private readonly FarmManagerDbContext _context;
     private readonly IMapper _mapper;
 
-    public AnimalQueryRepository(IMapper mapper)
+    public AnimalQueryRepository(IMapper mapper, FarmManagerDbContext context)
     {
         _mapper = mapper;
+        _context = context;
     }
 
     public AnimalViewModel? GetAnimal(Guid Id)
     {
-        var animal = MemoryStorage
-            .Animals
-            .Values
-            .FirstOrDefault(a => a.Id == Id);
+        var animal = _context
+             .Animals
+             .FirstOrDefault(a => a.Id == Id);
 
         return _mapper.Map<AnimalViewModel?>(animal);
     }
 
     public List<AnimalViewModel> GetAllAnimals()
     {
-        var animals = MemoryStorage
+        var animals = _context
             .Animals
-            .Values
             .ToList();
 
         return _mapper.Map<List<AnimalViewModel>>(animals);
@@ -37,20 +39,15 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public CowViewModel? GetCow(Guid Id)
     {
-        var cow = MemoryStorage
-             .Animals
-             .Values
+        var cow = _context.Cows
              .FirstOrDefault(a => a.Id == Id);
 
         return _mapper.Map<CowViewModel?>(cow);
     }
     public List<CowViewModel> GetAllCows()
     {
-        var cows = MemoryStorage
-            .Animals
-            .Values
-            .Where(a => a.Type == "Cow")
-            .OfType<CowDataModel>()
+        var cows = _context
+            .Cows
             .ToList();
 
         return _mapper.Map<List<CowViewModel>>(cows);
@@ -58,9 +55,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public CalfViewModel? GetCalf(Guid Id)
     {
-        var calf = MemoryStorage
-             .Animals
-             .Values
+        var calf = _context.Calves
              .FirstOrDefault(a => a.Id == Id);
 
         return _mapper.Map<CalfViewModel?>(calf);
@@ -68,11 +63,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public List<CalfViewModel> GetAllCalves()
     {
-        var calves = MemoryStorage
-            .Animals
-            .Values
-            .Where(a => a.Type == "Calf")
-            .OfType<CalfDataModel>()
+        var calves = _context
+            .Calves
             .ToList();
 
         return _mapper.Map<List<CalfViewModel>>(calves);
@@ -80,9 +72,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public BullViewModel? GetBull(Guid Id)
     {
-        var bull = MemoryStorage
-             .Animals
-             .Values
+        var bull = _context.Bulls
              .FirstOrDefault(a => a.Id == Id);
 
         return _mapper.Map<BullViewModel?>(bull);
@@ -90,11 +80,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public List<BullViewModel> GetAllBulls()
     {
-        var bulls = MemoryStorage
-            .Animals
-            .Values
-            .Where(a => a.Type == "Bull")
-            .OfType<BullDataModel>()
+        var bulls = _context
+            .Bulls
             .ToList();
 
         return _mapper.Map<List<BullViewModel>>(bulls);
@@ -102,9 +89,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public bool AnimalExistsByRegisterNumber(int registerNumber)
     {
-        var exists = MemoryStorage
+        var exists = _context
             .Animals
-            .Values
             .Any(a => a.RegisterNumber == registerNumber);
 
         return exists;
@@ -112,9 +98,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
 
     public bool AnimalExistsByRegisterNumberAndType(int registerNumber, string type)
     {
-        var exists = MemoryStorage
+        var exists = _context
             .Animals
-            .Values
             .Any(a => a.RegisterNumber == registerNumber && a.Type == type);
 
         return exists;
