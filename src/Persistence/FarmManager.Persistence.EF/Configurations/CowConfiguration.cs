@@ -8,6 +8,8 @@ public class CowConfiguration : IEntityTypeConfiguration<CowDataModel>
 {
     public void Configure(EntityTypeBuilder<CowDataModel> builder)
     {
+        builder.ToTable("Cows");
+
         builder.HasOne<AnimalDataModel>()
             .WithOne()
             .HasForeignKey<CowDataModel>(c => c.Id)
