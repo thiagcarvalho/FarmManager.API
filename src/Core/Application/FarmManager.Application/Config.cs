@@ -7,8 +7,10 @@ using FarmManager.Domain.AnimalFactory;
 using FarmManager.Domain.Interfaces.Factories;
 using FarmManager.Persistence.Command;
 using FarmManager.Persistence.Command.Store;
+using FarmManager.Persistence.EF.Context;
 using FarmManager.Persistence.Query;
 using FarmManager.Persistence.Query.Store;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +26,9 @@ public static class Config
 
     public static void AddRepositoryServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDbContext<FarmManagerDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
         services.AddScoped<IAnimalQueryRepository, AnimalQueryRepository>();
         services.AddScoped<IAnimalCommandRepository, AnimalCommandRepository>();
     }
