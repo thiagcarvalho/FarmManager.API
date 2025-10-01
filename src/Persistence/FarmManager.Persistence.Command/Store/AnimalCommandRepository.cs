@@ -1,19 +1,21 @@
 ﻿using AutoMapper;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Domain.Entities;
-using FarmManager.Domain.Interfaces;
 using FarmManager.Persistence.DataModels;
 using FarmManager.Persistence.DataModels.Store;
+using FarmManager.Persistence.EF.Context;
 
 namespace FarmManager.Persistence.Command.Store;
 
 public class AnimalCommandRepository : IAnimalCommandRepository
 {
     private readonly IMapper _mapper;
+    private readonly FarmManagerDbContext _context;
 
-    public AnimalCommandRepository(IMapper mapper)
+    public AnimalCommandRepository(IMapper mapper, FarmManagerDbContext context)
     {
         _mapper = mapper;
+        _context = context;
     }
 
     public Guid SaveAnimal(Animal animal)
@@ -23,100 +25,142 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         animalDataModel.CreatedAt = DateTime.UtcNow;
         animalDataModel.CreatedBy = "System";
 
-        MemoryStorage.Animals.Add(DictLen(), animalDataModel);
+        _context.Animals.Add(animalDataModel);
+        _context.SaveChanges();
 
         return animalDataModel.Id;
     }
 
     public void UpdateAnimal(Guid Id, Animal animal)
     {
-        int id = FindAnimalKeyInDictionary(Id);
-        var animalDataModel = _mapper.Map<AnimalDataModel>(animal);
-
-        MemoryStorage.Animals[animalDataModel.RegisterNumber] = animalDataModel;
+        var existingAnimal = _context.Animals.Find(Id);
+        if (existingAnimal != null)
+        {
+            _mapper.Map(animal, existingAnimal);
+            existingAnimal.UpdatedAt = DateTime.UtcNow;
+            existingAnimal.UpdatedBy = "System";
+            _context.SaveChanges();
+        }
     }
 
     public void DeleteAnimal(Guid Id)
     {
-        int id = FindAnimalKeyInDictionary(Id);
-        MemoryStorage.Animals.Remove(id);
+        var animal = _context.Animals.Find(Id);
+        if (animal != null)
+        {
+            _context.Animals.Remove(animal);
+            _context.SaveChanges();
+        }
     }
 
     public Guid SaveCow(Cow cow)
     {
-        var cowDataModel = _mapper.Map<CowDataModel>(cow);
+        using var transaction = _context.Database.BeginTransaction();
+        try
+        {
+            var animalId = SaveAnimal(cow);
 
-        cowDataModel.CreatedAt = DateTime.UtcNow;
-        cowDataModel.CreatedBy = "System";
+            var cowDataModel = _mapper.Map<CowDataModel>(cow);
+            cowDataModel.Id = animalId;
+            cowDataModel.CreatedAt = DateTime.UtcNow;
+            cowDataModel.CreatedBy = "System";
 
-        MemoryStorage.Animals.Add(DictLen(), cowDataModel);
+            _context.Cows.Add(cowDataModel);
+            _context.SaveChanges();
 
-        return cowDataModel.Id;
+            transaction.Commit();
+            return cowDataModel.Id;
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     public void UpdateCow(Guid Id, Cow cow)
     {
-        int id = FindAnimalKeyInDictionary(Id);
-        var cowDataModel = _mapper.Map<CowDataModel>(cow);
-
-        MemoryStorage.Animals[id] = cowDataModel;
+        var existingCow = _context.Cows.Find(Id);
+        if (existingCow != null)
+        {
+            _mapper.Map(cow, existingCow);
+            existingCow.UpdatedAt = DateTime.UtcNow;
+            existingCow.UpdatedBy = "System";
+            _context.SaveChanges();
+        }
     }
 
     public Guid SaveCalf(Calf calf)
     {
-        var calfDataModel = _mapper.Map<CalfDataModel>(calf);
+        using var transaction = _context.Database.BeginTransaction();
+        try
+        {
+            var animalId = SaveAnimal(calf);
 
-        calfDataModel.CreatedAt = DateTime.UtcNow;
-        calfDataModel.CreatedBy = "System";
+            var calfDataModel = _mapper.Map<CalfDataModel>(calf);
+            calfDataModel.Id = animalId;
+            calfDataModel.CreatedAt = DateTime.UtcNow;
+            calfDataModel.CreatedBy = "System";
 
-        MemoryStorage.Animals.Add(DictLen(), calfDataModel);
+            _context.Calves.Add(calfDataModel);
+            _context.SaveChanges();
 
-        return calfDataModel.Id;
+            transaction.Commit();
+            return animalId;
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     public void UpdateCalf(Guid Id, Calf calf)
     {
-        int id = FindAnimalKeyInDictionary(Id);
-        var calfDataModel = _mapper.Map<CalfDataModel>(calf);
-
-        MemoryStorage.Animals[id] = calfDataModel;
+        var existingCalf = _context.Calves.Find(Id);
+        if (existingCalf != null)
+        {
+            _mapper.Map(calf, existingCalf);
+            existingCalf.UpdatedAt = DateTime.UtcNow;
+            existingCalf.UpdatedBy = "System";
+            _context.SaveChanges();
+        }
     }
 
     public Guid SaveBull(Bull bull)
     {
-        var bullDataModel = _mapper.Map<BullDataModel>(bull);
+        using var transaction = _context.Database.BeginTransaction();
+        try
+        {
+            var animalId = SaveAnimal(bull);
 
-        bullDataModel.CreatedAt = DateTime.UtcNow;
-        bullDataModel.CreatedBy = "System";
+            var bullDataModel = _mapper.Map<BullDataModel>(bull);
+            bullDataModel.Id = animalId;
+            bullDataModel.CreatedAt = DateTime.UtcNow;
+            bullDataModel.CreatedBy = "System";
 
-        MemoryStorage.Animals.Add(DictLen(), bullDataModel);
+            _context.Bulls.Add(bullDataModel);
+            _context.SaveChanges();
 
-        return bullDataModel.Id;
+            transaction.Commit();
+            return animalId;
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     public void UpdateBull(Guid Id, Bull bull)
-
     {
-        int id = FindAnimalKeyInDictionary(Id);
-        var bullDataModel = _mapper.Map<BullDataModel>(bull);
-
-        MemoryStorage.Animals[id] = bullDataModel;
-    }
-    private int FindAnimalKeyInDictionary(Guid animalId)
-    {
-        var kvp = MemoryStorage.Animals.FirstOrDefault(kvp => kvp.Value.Id == animalId);
-
-        if (kvp.Value == null)
+        var existingBull = _context.Bulls.Find(Id);
+        if (existingBull != null)
         {
-            throw new KeyNotFoundException($"Animal with Id {animalId} not found in dictionary.");
+            _mapper.Map(bull, existingBull);
+            existingBull.UpdatedAt = DateTime.UtcNow;
+            existingBull.UpdatedBy = "System";
+            _context.SaveChanges();
         }
-
-        return kvp.Key;
     }
-
-    private int DictLen()
-    {
-        return MemoryStorage.Animals.Count + 1;
-    }
-
 }
