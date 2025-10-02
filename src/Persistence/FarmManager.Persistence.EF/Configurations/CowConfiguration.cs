@@ -10,9 +10,13 @@ public class CowConfiguration : IEntityTypeConfiguration<CowDataModel>
     {
         builder.ToTable("Cows");
 
-        builder.HasOne<AnimalDataModel>()
+        builder.HasKey(c => c.Id);
+        builder.Property(c => c.Id)
+            .ValueGeneratedOnAdd();
+
+        builder.HasOne(c => c.Animal)
             .WithOne()
-            .HasForeignKey<CowDataModel>(c => c.Id)
+            .HasForeignKey<CowDataModel>(c => c.AnimalId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(c => c.Name)
@@ -27,5 +31,10 @@ public class CowConfiguration : IEntityTypeConfiguration<CowDataModel>
 
         builder.Property(c => c.HasCalf)
             .IsRequired();
+
+        builder.Ignore(c => c.CreatedAt);
+        builder.Ignore(c => c.CreatedBy);
+        builder.Ignore(c => c.UpdatedAt);
+        builder.Ignore(c => c.UpdatedBy);
     }
 }

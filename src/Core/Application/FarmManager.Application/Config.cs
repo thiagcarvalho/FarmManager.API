@@ -13,6 +13,8 @@ using FarmManager.Persistence.Query.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
+using System.Data;
 
 namespace FarmManager.Application;
 
@@ -26,8 +28,10 @@ public static class Config
 
     public static void AddRepositoryServices(this IServiceCollection services, IConfiguration configuration)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         services.AddDbContext<FarmManagerDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+            options.UseNpgsql(configuration.GetConnectionString("Postgres")));
 
         services.AddScoped<IAnimalQueryRepository, AnimalQueryRepository>();
         services.AddScoped<IAnimalCommandRepository, AnimalCommandRepository>();

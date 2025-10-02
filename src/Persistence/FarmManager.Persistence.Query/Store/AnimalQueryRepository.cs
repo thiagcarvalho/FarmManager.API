@@ -4,6 +4,7 @@ using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Persistence.DataModels;
 using FarmManager.Persistence.DataModels.Store;
 using FarmManager.Persistence.EF.Context;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace FarmManager.Persistence.Query.Store;
@@ -40,7 +41,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     public CowViewModel? GetCow(Guid Id)
     {
         var cow = _context.Cows
-             .FirstOrDefault(a => a.Id == Id);
+            .Include(c => c.Animal)
+            .FirstOrDefault(c => c.AnimalId == Id);
 
         return _mapper.Map<CowViewModel?>(cow);
     }
@@ -48,6 +50,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     {
         var cows = _context
             .Cows
+            .Include(c => c.Animal)
             .ToList();
 
         return _mapper.Map<List<CowViewModel>>(cows);
@@ -56,7 +59,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     public CalfViewModel? GetCalf(Guid Id)
     {
         var calf = _context.Calves
-             .FirstOrDefault(a => a.Id == Id);
+            .Include(calf => calf.Animal)
+            .FirstOrDefault(a => a.AnimalId == Id);
 
         return _mapper.Map<CalfViewModel?>(calf);
     }
@@ -65,6 +69,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     {
         var calves = _context
             .Calves
+            .Include(calf => calf.Animal)
             .ToList();
 
         return _mapper.Map<List<CalfViewModel>>(calves);
@@ -73,7 +78,8 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     public BullViewModel? GetBull(Guid Id)
     {
         var bull = _context.Bulls
-             .FirstOrDefault(a => a.Id == Id);
+            .Include(b => b.Animal)
+            .FirstOrDefault(a => a.AnimalId == Id);
 
         return _mapper.Map<BullViewModel?>(bull);
     }
@@ -82,6 +88,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
     {
         var bulls = _context
             .Bulls
+            .Include(b => b.Animal)
             .ToList();
 
         return _mapper.Map<List<BullViewModel>>(bulls);

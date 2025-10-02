@@ -10,13 +10,22 @@ public class BullConfiguration : IEntityTypeConfiguration<BullDataModel>
     {
         builder.ToTable("Bulls");
 
-        builder.HasOne<AnimalDataModel>()
+        builder.HasKey(b => b.Id);
+        builder.Property(b => b.Id)
+            .ValueGeneratedOnAdd();
+
+        builder.HasOne(b => b.Animal)
             .WithOne()
-            .HasForeignKey<BullDataModel>(b => b.Id)
+            .HasForeignKey<BullDataModel>(b => b.AnimalId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(b => b.Name)
             .HasMaxLength(100)
             .IsRequired(false);
+
+        builder.Ignore(b => b.CreatedAt);
+        builder.Ignore(b => b.CreatedBy);
+        builder.Ignore(b => b.UpdatedAt);
+        builder.Ignore(b => b.UpdatedBy);
     }
 }

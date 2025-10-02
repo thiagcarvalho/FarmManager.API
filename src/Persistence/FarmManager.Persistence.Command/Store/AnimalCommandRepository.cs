@@ -60,16 +60,15 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         {
             var animalId = SaveAnimal(cow);
 
+            _context.ChangeTracker.Clear();
+
             var cowDataModel = _mapper.Map<CowDataModel>(cow);
-            cowDataModel.Id = animalId;
-            cowDataModel.CreatedAt = DateTime.UtcNow;
-            cowDataModel.CreatedBy = "System";
 
             _context.Cows.Add(cowDataModel);
             _context.SaveChanges();
 
             transaction.Commit();
-            return cowDataModel.Id;
+            return cowDataModel.AnimalId;
         }
         catch
         {
@@ -80,7 +79,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateCow(Guid Id, Cow cow)
     {
-        var existingCow = _context.Cows.Find(Id);
+        var existingCow = _context.Cows.FirstOrDefault(c => c.AnimalId == Id);
         if (existingCow != null)
         {
             _mapper.Map(cow, existingCow);
@@ -98,7 +97,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
             var animalId = SaveAnimal(calf);
 
             var calfDataModel = _mapper.Map<CalfDataModel>(calf);
-            calfDataModel.Id = animalId;
+            calfDataModel.AnimalId = animalId;
             calfDataModel.CreatedAt = DateTime.UtcNow;
             calfDataModel.CreatedBy = "System";
 
@@ -117,7 +116,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateCalf(Guid Id, Calf calf)
     {
-        var existingCalf = _context.Calves.Find(Id);
+        var existingCalf = _context.Calves.FirstOrDefault(calf => calf.AnimalId == Id);
         if (existingCalf != null)
         {
             _mapper.Map(calf, existingCalf);
@@ -135,7 +134,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
             var animalId = SaveAnimal(bull);
 
             var bullDataModel = _mapper.Map<BullDataModel>(bull);
-            bullDataModel.Id = animalId;
+            bullDataModel.AnimalId = animalId;
             bullDataModel.CreatedAt = DateTime.UtcNow;
             bullDataModel.CreatedBy = "System";
 
@@ -154,7 +153,7 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateBull(Guid Id, Bull bull)
     {
-        var existingBull = _context.Bulls.Find(Id);
+        var existingBull = _context.Bulls.FirstOrDefault(b => b.AnimalId == Id);
         if (existingBull != null)
         {
             _mapper.Map(bull, existingBull);
