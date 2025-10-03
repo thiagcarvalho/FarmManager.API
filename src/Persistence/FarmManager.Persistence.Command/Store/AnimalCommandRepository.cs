@@ -79,13 +79,26 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateCow(Guid Id, Cow cow)
     {
-        var existingCow = _context.Cows.FirstOrDefault(c => c.AnimalId == Id);
-        if (existingCow != null)
+        using var transaction = _context.Database.BeginTransaction();
+        try
         {
-            _mapper.Map(cow, existingCow);
-            existingCow.UpdatedAt = DateTime.UtcNow;
-            existingCow.UpdatedBy = "System";
-            _context.SaveChanges();
+            var existingCow = _context.Cows.FirstOrDefault(c => c.AnimalId == Id);
+            if (existingCow != null)
+            {
+                UpdateAnimal(Id, cow);
+
+                _mapper.Map(cow, existingCow);
+                existingCow.UpdatedAt = DateTime.UtcNow;
+                existingCow.UpdatedBy = "System";
+                _context.SaveChanges();
+            }
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
         }
     }
 
@@ -116,13 +129,26 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateCalf(Guid Id, Calf calf)
     {
-        var existingCalf = _context.Calves.FirstOrDefault(calf => calf.AnimalId == Id);
-        if (existingCalf != null)
+        using var transaction = _context.Database.BeginTransaction();
+        try
         {
-            _mapper.Map(calf, existingCalf);
-            existingCalf.UpdatedAt = DateTime.UtcNow;
-            existingCalf.UpdatedBy = "System";
-            _context.SaveChanges();
+            var existingCalf = _context.Calves.FirstOrDefault(c => c.AnimalId == Id);
+            if (existingCalf != null)
+            {
+                UpdateAnimal(Id, calf);
+
+                _mapper.Map(calf, existingCalf);
+                existingCalf.UpdatedAt = DateTime.UtcNow;
+                existingCalf.UpdatedBy = "System";
+                _context.SaveChanges();
+            }
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
         }
     }
 
@@ -153,13 +179,26 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void UpdateBull(Guid Id, Bull bull)
     {
-        var existingBull = _context.Bulls.FirstOrDefault(b => b.AnimalId == Id);
-        if (existingBull != null)
+        using var transaction = _context.Database.BeginTransaction();
+        try
         {
-            _mapper.Map(bull, existingBull);
-            existingBull.UpdatedAt = DateTime.UtcNow;
-            existingBull.UpdatedBy = "System";
-            _context.SaveChanges();
+            var existingBull = _context.Bulls.FirstOrDefault(b => b.AnimalId == Id);
+            if (existingBull != null)
+            {
+                UpdateAnimal(Id, bull);
+
+                _mapper.Map(bull, existingBull);
+                existingBull.UpdatedAt = DateTime.UtcNow;
+                existingBull.UpdatedBy = "System";
+                _context.SaveChanges();
+            }
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
         }
     }
 }
