@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{40338126
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Application.Tests", "tests\FarmManager.Application.Tests\FarmManager.Application.Tests.csproj", "{43D62BB1-1511-42A1-BFC2-AAC96C2578BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmManager.Persistence.EF", "src\Persistence\FarmManager.Persistence.EF\FarmManager.Persistence.EF.csproj", "{BB424C00-0B6B-4B07-9DB0-66F0483D70C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{43D62BB1-1511-42A1-BFC2-AAC96C2578BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43D62BB1-1511-42A1-BFC2-AAC96C2578BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43D62BB1-1511-42A1-BFC2-AAC96C2578BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB424C00-0B6B-4B07-9DB0-66F0483D70C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB424C00-0B6B-4B07-9DB0-66F0483D70C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB424C00-0B6B-4B07-9DB0-66F0483D70C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB424C00-0B6B-4B07-9DB0-66F0483D70C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{80F54181-74E8-4A9C-ADE3-589A74BCDE7C} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 		{C39865CE-6CFC-41CE-A07D-FEBEA77CD74B} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 		{43D62BB1-1511-42A1-BFC2-AAC96C2578BB} = {40338126-9179-41CC-9418-0BDEA291B4B6}
+		{BB424C00-0B6B-4B07-9DB0-66F0483D70C6} = {B88FD0BE-ECB0-471B-85A0-69B9E7906878}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC18DFBD-7EEB-4363-9F7F-459DAE9BB062}
