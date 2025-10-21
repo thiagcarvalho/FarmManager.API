@@ -10,6 +10,7 @@ public class Animal : IAnimal
     public Arroba Weight { get; set; } = new Arroba(0);
     public string Type { get; set; } = string.Empty;
     public DateTime Birthday { get; set; }
+    public string LoteName { get; set; } = string.Empty;
 
     public int Age => CalculateAge();
 
@@ -17,13 +18,15 @@ public class Animal : IAnimal
         int registerNumber,
         Arroba weight,
         string type,
-        DateTime birthday)
+        DateTime birthday,
+        string loteName)
     {
         Id = id ?? Guid.NewGuid();
         RegisterNumber = registerNumber;
         Weight = weight;
         Type = type;
         Birthday = birthday;
+        LoteName = loteName;
     }
 
     private int CalculateAge()
