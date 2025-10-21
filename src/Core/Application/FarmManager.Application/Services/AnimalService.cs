@@ -188,7 +188,8 @@ public class AnimalService : IAnimalService
             animalInputModel.RegisterNumber,
             new Arroba(animalInputModel.Weight),
             animalInputModel.Type,
-            animalInputModel.Birthday);
+            animalInputModel.Birthday,
+            animalInputModel.Lote ?? "");
     }
 
     private Cow CreateCow(CowInputModel cowInputModel)
@@ -202,7 +203,8 @@ public class AnimalService : IAnimalService
             cowInputModel.IsPregnant,
             cowInputModel.HasCalf,
             cowInputModel.Name,
-            cowInputModel.IsMilking);
+            cowInputModel.IsMilking,
+            cowInputModel.Lote ?? "");
     }
 
     private Calf CreateCalf(CalfInputModel calfInputModel)
@@ -214,7 +216,8 @@ public class AnimalService : IAnimalService
             calfInputModel.Type,
             calfInputModel.Birthday,
             calfInputModel.Gender,
-            calfInputModel.MotherNumber);
+            calfInputModel.MotherNumber,
+            calfInputModel.Lote ?? "");
     }
 
     private Bull CreateBull(BullInputModel bullInputModel)
@@ -225,6 +228,7 @@ public class AnimalService : IAnimalService
             new Arroba(bullInputModel.Weight),
             bullInputModel.Type,
             bullInputModel.Birthday,
-            bullInputModel.Name ?? "");
+            bullInputModel.Name ?? "",
+            bullInputModel.Lote ?? "");
     }
 }
