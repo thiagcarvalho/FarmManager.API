@@ -19,4 +19,7 @@ public class AnimalInputModel
 
     [Required(ErrorMessage = "The Type is required")]
     public string Type { get; set; } = string.Empty;
+
+    [MaxLength(ErrorMessage = "The Lote is required")]
+    public string? Lote { get; set; }
 }
