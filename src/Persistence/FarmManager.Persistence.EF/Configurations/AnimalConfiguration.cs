@@ -15,6 +15,11 @@ public class AnimalConfiguration : IEntityTypeConfiguration<AnimalDataModel>
         builder.Property(a => a.Id)
             .IsRequired();
 
+        builder.HasOne(a => a.Lote)
+            .WithMany()
+            .HasForeignKey(a => a.LoteId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         builder.Property(a => a.RegisterNumber)
             .IsRequired();
 

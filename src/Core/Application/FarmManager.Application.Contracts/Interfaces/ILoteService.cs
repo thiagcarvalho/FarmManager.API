@@ -5,8 +5,10 @@ namespace FarmManager.Application.Contracts.Interfaces;
 
 public interface ILoteService
 {
-    Guid SaveLote(Lote lote);
+    int SaveLote(Lote lote);
+    void UpdateLote(int Id, string lote);
     void DeleteLote(int Id);
     LoteViewModel? GetLote(string Id);
+    LoteViewModel? GetLoteByName (string name);
     List<LoteViewModel> GetAllLotes();
 }

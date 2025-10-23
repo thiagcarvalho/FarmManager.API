@@ -4,7 +4,7 @@ namespace FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 
 public interface ILoteCommandRepository
 {
-    Guid SaveLote(Lote lote);
+    int SaveLote(Lote lote);
     void UpdateLote(int Id, string lote);
     void DeleteLote(int Id);
 }
