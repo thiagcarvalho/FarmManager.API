@@ -12,7 +12,8 @@ public class Bull : Animal, IBull
         Arroba weight,
         string type,
         DateTime birthday,
-        string name) : base(id, registerNumber, weight, type, birthday)
+        string name,
+        int? loteId) : base(id, registerNumber, weight, type, birthday, loteId)
     {
         Name = name;
     }

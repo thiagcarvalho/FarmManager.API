@@ -10,5 +10,6 @@ public interface IAnimal
     string Type { get; set; }
     DateTime Birthday { get; set; }
 
+    int? LoteId { get; set; }
     void UpdateWeight(Arroba newWeight);
 }

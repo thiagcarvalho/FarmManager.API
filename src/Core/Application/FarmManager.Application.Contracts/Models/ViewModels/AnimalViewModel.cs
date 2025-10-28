@@ -8,5 +8,5 @@ public class AnimalViewModel
     public decimal Weight { get; set; }
     public string Type { get; set; } = string.Empty;
     public DateTime Birthday { get; set; }
-
+    public string LoteName { get; set; } = string.Empty;
 }

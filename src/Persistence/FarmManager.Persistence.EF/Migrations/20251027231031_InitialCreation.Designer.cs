@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FarmManager.Persistence.EF.Migrations
 {
     [DbContext(typeof(FarmManagerDbContext))]
-    [Migration("20251002225813_First-Migration")]
-    partial class FirstMigration
+    [Migration("20251027231031_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace FarmManager.Persistence.EF.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int?>("LoteId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("RegisterNumber")
                         .HasColumnType("integer");
 
@@ -64,6 +67,8 @@ namespace FarmManager.Persistence.EF.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoteId");
 
                     b.ToTable("Animals", (string)null);
                 });
@@ -148,6 +153,37 @@ namespace FarmManager.Persistence.EF.Migrations
                     b.ToTable("Cows", (string)null);
                 });
 
+            modelBuilder.Entity("FarmManager.Persistence.DataModels.Store.LoteDataModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Lotes", (string)null);
+                });
+
+            modelBuilder.Entity("FarmManager.Persistence.DataModels.Store.AnimalDataModel", b =>
+                {
+                    b.HasOne("FarmManager.Persistence.DataModels.Store.LoteDataModel", "Lote")
+                        .WithMany("Animals")
+                        .HasForeignKey("LoteId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Lote");
+                });
+
             modelBuilder.Entity("FarmManager.Persistence.DataModels.Store.BullDataModel", b =>
                 {
                     b.HasOne("FarmManager.Persistence.DataModels.Store.AnimalDataModel", "Animal")
@@ -179,6 +215,11 @@ namespace FarmManager.Persistence.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Animal");
+                });
+
+            modelBuilder.Entity("FarmManager.Persistence.DataModels.Store.LoteDataModel", b =>
+                {
+                    b.Navigation("Animals");
                 });
 #pragma warning restore 612, 618
         }
