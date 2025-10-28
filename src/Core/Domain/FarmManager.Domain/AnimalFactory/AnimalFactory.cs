@@ -6,28 +6,28 @@ namespace FarmManager.Domain.AnimalFactory;
 
 public class AnimalFactory : IAnimalFactory
 {
-    public Animal Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, string loteName)
+    public Animal Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, int loteId)
     {
-        return new Animal(id, registerNumber, weight, type, birthday, loteName)
+        return new Animal(id, registerNumber, weight, type, birthday, loteId)
         {
             Id = id ?? Guid.NewGuid(),
             RegisterNumber = registerNumber,
             Weight = weight,
             Type = type,
             Birthday = birthday,
-            LoteName = loteName
+            LoteId = loteId
         };
     }
 
-    public Cow Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool isPregnant, bool hasCalf, string? name, bool isMilking, string loteName)
+    public Cow Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool isPregnant, bool hasCalf, string? name, bool isMilking, int loteId)
     {
-        return new Cow(id, registerNumber, weight, type, birthday, name, isPregnant, hasCalf, isMilking, loteName)
+        return new Cow(id, registerNumber, weight, type, birthday, name, isPregnant, hasCalf, isMilking, loteId)
         {
             Id = id ?? Guid.NewGuid(),
             RegisterNumber = registerNumber,
             Weight = weight,
             Birthday = birthday,
-            LoteName = loteName,
+            LoteId = loteId,
             IsPregnant = isPregnant,
             HasCalf = hasCalf,
             Name = name,
@@ -35,30 +35,30 @@ public class AnimalFactory : IAnimalFactory
         };
     }
 
-    public Calf Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool gender, int motherNumber, string loteName)
+    public Calf Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, bool gender, int motherNumber, int loteId)
     {
-        return new Calf(id, registerNumber, weight, type, birthday, gender, motherNumber, loteName)
+        return new Calf(id, registerNumber, weight, type, birthday, gender, motherNumber, loteId)
         {
             Id = id ?? Guid.NewGuid(),
             RegisterNumber = registerNumber,
             Weight = weight,
             Type = type,
             Birthday = birthday,
-            LoteName = loteName,
+            LoteId = loteId,
             Gender = gender,
             MotherNumber = motherNumber
         };
     }
 
-    public Bull Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, string name, string loteName)
+    public Bull Create(Guid? id, int registerNumber, Arroba weight, string type, DateTime birthday, string name, int loteId)
     {
-        return new Bull(id, registerNumber, weight, type, birthday, name, loteName)
+        return new Bull(id, registerNumber, weight, type, birthday, name, loteId)
         {
             Id = id ?? Guid.NewGuid(),
             RegisterNumber = registerNumber,
             Weight = weight,
             Type = type,
-            LoteName = loteName,
+            LoteId = loteId,
             Birthday = birthday,
             Name = name
         };

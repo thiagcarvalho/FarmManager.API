@@ -1,15 +1,8 @@
 ﻿using AutoMapper;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Domain.Entities;
-using FarmManager.Domain.Interfaces;
 using FarmManager.Persistence.DataModels.Store;
 using FarmManager.Persistence.EF.Context;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FarmManager.Persistence.Command.Store;
 
@@ -23,19 +16,9 @@ public class LoteCommandRepository : ILoteCommandRepository
         _mapper = mapper;
         _context = context;
     }
-
-    public void DeleteLote(int Id)
-    {
-        throw new NotImplementedException();
-    }
-
     public int SaveLote(Lote lote)
     {
-
-        var loteDataModel = new LoteDataModel
-        {
-            Name = lote.Name
-        };
+        var loteDataModel = _mapper.Map<LoteDataModel>(lote);
 
         _context.Lotes.Add(loteDataModel);
         _context.SaveChanges();
@@ -46,5 +29,15 @@ public class LoteCommandRepository : ILoteCommandRepository
     public void UpdateLote(int Id, string lote)
     {
         throw new NotImplementedException();
+    }
+
+    public void DeleteLote(int Id)
+    {
+        var lote = _context.Lotes.Find(Id);
+        if (lote != null)
+        {
+            _context.Lotes.Remove(lote);
+            _context.SaveChanges();
+        }
     }
 }

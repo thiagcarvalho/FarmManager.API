@@ -2,9 +2,8 @@
 
 namespace FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 
-public interface ILoteQuerryRepository
+public interface ILoteQueryRepository
 {
-    LoteViewModel? GetLote(string Id);
-    LoteViewModel? GetLoteByName (string name);
+    int GetLoteIdByName (string name);
     List<LoteViewModel> GetAllLotes();
 }

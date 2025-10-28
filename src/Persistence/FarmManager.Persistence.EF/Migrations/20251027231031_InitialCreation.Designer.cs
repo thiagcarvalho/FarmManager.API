@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FarmManager.Persistence.EF.Migrations
 {
     [DbContext(typeof(FarmManagerDbContext))]
-    [Migration("20251022235345_AddLoteRelationship")]
-    partial class AddLoteRelationship
+    [Migration("20251027231031_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

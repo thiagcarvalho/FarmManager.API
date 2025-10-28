@@ -14,7 +14,7 @@ public class Calf : Animal, ICalf
         DateTime birthday,
         bool gender,
         int motherNumber,
-        string loteName) : base(id, registerNumber, weight, type, birthday, loteName)
+        int? loteId) : base(id, registerNumber, weight, type, birthday, loteId)
     {
         Gender = gender;
         MotherNumber = motherNumber;

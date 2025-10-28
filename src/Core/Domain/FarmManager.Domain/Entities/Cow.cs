@@ -24,7 +24,7 @@ public class Cow : Animal, ICow
         bool isPregnant,
         bool hasCalf,
         bool isMilking,
-        string loteName) : base(id, registerNumber, weight, type, birthday, loteName)
+        int? loteId) : base(id, registerNumber, weight, type, birthday, loteId)
     {
         Name = name;
         IsPregnant = isPregnant;

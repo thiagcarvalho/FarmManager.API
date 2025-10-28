@@ -16,16 +16,19 @@ public class AnimalService : IAnimalService
     private readonly IAnimalQueryRepository _animalQueryRepository;
     private readonly IAnimalCommandRepository _animalCommandRepository;
     private readonly IAnimalFactory _animalFactory;
+    private readonly ILoteService _loteService;
     private readonly IMapper _mapper;
 
     public AnimalService(IAnimalQueryRepository animalQueryRepository,
         IAnimalCommandRepository animalCommandRepository,
         IAnimalFactory animalFactory,
+        ILoteService loteService,
         IMapper mapper)
     {
         _animalQueryRepository = animalQueryRepository;
         _animalCommandRepository = animalCommandRepository;
         _animalFactory = animalFactory;
+        _loteService = loteService;
         _mapper = mapper;
     }
     public AnimalViewModel? GetAnimal(Guid Id)
@@ -189,7 +192,7 @@ public class AnimalService : IAnimalService
             new Arroba(animalInputModel.Weight),
             animalInputModel.Type,
             animalInputModel.Birthday,
-            animalInputModel.Lote ?? "");
+            _loteService.GetLoteIdByName(animalInputModel.Lote));
     }
 
     private Cow CreateCow(CowInputModel cowInputModel)
@@ -204,7 +207,7 @@ public class AnimalService : IAnimalService
             cowInputModel.HasCalf,
             cowInputModel.Name,
             cowInputModel.IsMilking,
-            cowInputModel.Lote ?? "");
+            _loteService.GetLoteIdByName(cowInputModel.Lote));
     }
 
     private Calf CreateCalf(CalfInputModel calfInputModel)
@@ -217,7 +220,7 @@ public class AnimalService : IAnimalService
             calfInputModel.Birthday,
             calfInputModel.Gender,
             calfInputModel.MotherNumber,
-            calfInputModel.Lote ?? "");
+            _loteService.GetLoteIdByName(calfInputModel.Lote));
     }
 
     private Bull CreateBull(BullInputModel bullInputModel)
@@ -229,6 +232,6 @@ public class AnimalService : IAnimalService
             bullInputModel.Type,
             bullInputModel.Birthday,
             bullInputModel.Name ?? "",
-            bullInputModel.Lote ?? "");
+            _loteService.GetLoteIdByName(bullInputModel.Lote));
     }
 }

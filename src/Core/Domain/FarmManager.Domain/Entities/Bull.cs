@@ -13,7 +13,7 @@ public class Bull : Animal, IBull
         string type,
         DateTime birthday,
         string name,
-        string loteName) : base(id, registerNumber, weight, type, birthday, loteName)
+        int? loteId) : base(id, registerNumber, weight, type, birthday, loteId)
     {
         Name = name;
     }
