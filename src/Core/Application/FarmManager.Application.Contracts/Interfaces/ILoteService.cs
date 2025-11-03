@@ -12,5 +12,5 @@ public interface ILoteService
     int GetLoteIdByName (string name);
     List<LoteViewModel> GetAllLotes();
     List<AnimalViewModel> GetAnimalsByLoteId(int loteId);
-
+    List<LoteSummaryViewModel> GetLoteSummary();
 }
