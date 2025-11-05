@@ -15,6 +15,7 @@ public class FarmManagerDbContext : DbContext
     public DbSet<BullDataModel> Bulls { get; set; }
     public DbSet<CalfDataModel> Calves { get; set; }
     public DbSet<LoteDataModel> Lotes { get; set; }
+    public DbSet<ObservationDataModel> Observations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,5 +26,6 @@ public class FarmManagerDbContext : DbContext
         modelBuilder.ApplyConfiguration(new BullConfiguration());
         modelBuilder.ApplyConfiguration(new CalfConfiguration());
         modelBuilder.ApplyConfiguration(new LoteConfiguration());
+        modelBuilder.ApplyConfiguration(new ObservationConfiguration());
     }
 }
