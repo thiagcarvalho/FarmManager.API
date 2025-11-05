@@ -25,6 +25,15 @@ namespace FarmManager.WebApi.Controllers
             return Ok(lotes);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult Get(int id)
+        {
+            var lote = _loteService.GetLoteNameById(id);
+            return Ok(lote);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,13 +52,21 @@ namespace FarmManager.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpGet("/{loteId}/animals")]
+        [HttpGet("{loteId}/animals")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetAnimalsByLote(int loteId)
         {
             var animals = _loteService.GetAnimalsByLoteId(loteId);
             return Ok(animals);
+        }
+
+        [HttpGet("summary")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult GetLoteSummaries()
+        {
+            var summaries = _loteService.GetLoteSummary();
+            return Ok(summaries);
         }
     }
 }

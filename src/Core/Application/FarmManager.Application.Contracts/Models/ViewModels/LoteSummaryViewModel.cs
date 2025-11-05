@@ -2,6 +2,7 @@
 
 public class LoteSummaryViewModel
 {
+    public int LoteId { get; set; }
     public string LoteName { get; set; } = string.Empty;
     public int TotalAnimals { get; set; }
     public int Cows { get; set; }

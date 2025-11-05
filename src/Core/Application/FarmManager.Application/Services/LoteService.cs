@@ -33,6 +33,11 @@ public class LoteService : ILoteService
         return _loteQuerryRepository.GetAllLotes();
     }
 
+    public string GetLoteNameById(int id)
+    {
+        return _loteQuerryRepository.GetLoteById(id);
+    }
+
     public int GetLoteIdByName(string name)
     {
         return _loteQuerryRepository.GetLoteIdByName(name);
@@ -75,6 +80,7 @@ public class LoteService : ILoteService
 
             summaryList.Add(new LoteSummaryViewModel
             {
+                LoteId = loteId,
                 LoteName = lote.Name,
                 TotalAnimals = total,
                 Cows = cows, 
