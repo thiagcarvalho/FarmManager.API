@@ -4,6 +4,7 @@ using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Domain.Entities;
+using FarmManager.Persistence.Query.Store;
 
 namespace FarmManager.Application.Services;
 
@@ -32,6 +33,11 @@ public class LoteService : ILoteService
         return _loteQuerryRepository.GetAllLotes();
     }
 
+    public string GetLoteNameById(int id)
+    {
+        return _loteQuerryRepository.GetLoteById(id);
+    }
+
     public int GetLoteIdByName(string name)
     {
         return _loteQuerryRepository.GetLoteIdByName(name);
@@ -54,5 +60,35 @@ public class LoteService : ILoteService
     public List<AnimalViewModel> GetAnimalsByLoteId(int loteId)
     {
         return _animalQueryRepository.GetAnimalsByLoteId(loteId);
+    }
+
+    public List<LoteSummaryViewModel> GetLoteSummary()
+    {
+        var lotes = _loteQuerryRepository.GetAllLotes();
+        var summaryList = new List<LoteSummaryViewModel>();
+
+        foreach (var lote in lotes)
+        {
+            var loteId = _loteQuerryRepository.GetLoteIdByName(lote.Name);
+
+            var animals = _animalQueryRepository.GetAnimalsByLoteId(loteId) ?? new List<AnimalViewModel>();
+
+            var total = animals.Count;
+            var cows = animals.Count(a => string.Equals(a.Type, "Cow", StringComparison.OrdinalIgnoreCase));
+            var calves = animals.Count(a => string.Equals(a.Type, "Calf", StringComparison.OrdinalIgnoreCase));
+            var bulls = animals.Count(a =>string.Equals(a.Type, "Bull", StringComparison.OrdinalIgnoreCase));
+
+            summaryList.Add(new LoteSummaryViewModel
+            {
+                LoteId = loteId,
+                LoteName = lote.Name,
+                TotalAnimals = total,
+                Cows = cows, 
+                Calves = calves,
+                Bulls = bulls
+            });
+        }
+
+        return summaryList;
     }
 }

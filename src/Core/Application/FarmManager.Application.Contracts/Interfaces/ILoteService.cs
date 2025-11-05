@@ -10,7 +10,8 @@ public interface ILoteService
     void UpdateLote(int Id, string lote);
     void DeleteLote(int Id);
     int GetLoteIdByName (string name);
+    string? GetLoteNameById(int id);
     List<LoteViewModel> GetAllLotes();
     List<AnimalViewModel> GetAnimalsByLoteId(int loteId);
-
+    List<LoteSummaryViewModel> GetLoteSummary();
 }

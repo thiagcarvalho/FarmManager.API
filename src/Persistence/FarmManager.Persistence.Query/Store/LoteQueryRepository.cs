@@ -16,6 +16,17 @@ public class LoteQueryRepository : ILoteQueryRepository
         _context = context;
     }
 
+    public string? GetLoteById(int id)
+    {
+        var name = _context
+            .Lotes
+            .Where(l => l.Id == id)
+            .Select(l => l.Name)
+            .FirstOrDefault();
+
+        return name;
+    }
+
     public List<LoteViewModel> GetAllLotes()
     {
         var lotes = _context
