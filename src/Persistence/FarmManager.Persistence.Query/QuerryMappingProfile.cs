@@ -46,5 +46,9 @@ public class QuerryMappingProfile : Profile
 
         CreateMap<LoteDataModel, LoteViewModel>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<ObservationDataModel, ObservationViewModel>()
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.DataAdd, opt => opt.MapFrom(src => src.DataAdd));
     }
 }

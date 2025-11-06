@@ -14,6 +14,7 @@ public abstract class AnimalServiceTestBase
     protected readonly Mock<IAnimalCommandRepository> MockCommandRepository;
     protected readonly Mock<IAnimalFactory> MockAnimalFactory;
     protected readonly Mock<ILoteService> MockLoteService;
+    protected readonly Mock<IObservationService> MockObservationService;
     protected readonly Mock<IMapper> MockMapper;
     protected readonly AnimalService AnimalService;
 
@@ -24,11 +25,13 @@ public abstract class AnimalServiceTestBase
         MockAnimalFactory = new Mock<IAnimalFactory>();
         MockLoteService = new Mock<ILoteService>();
         MockMapper = new Mock<IMapper>();
+        MockObservationService = new Mock<IObservationService>();
         AnimalService = new AnimalService(
             MockQueryRepository.Object,
             MockCommandRepository.Object,
-            MockAnimalFactory.Object,
             MockLoteService.Object,
+            MockObservationService.Object,
+            MockAnimalFactory.Object,
             MockMapper.Object);
     }
 }

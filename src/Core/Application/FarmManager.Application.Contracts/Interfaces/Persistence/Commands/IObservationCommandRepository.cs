@@ -2,6 +2,6 @@
 
 public interface IObservationCommandRepository
 {
-    int SaveObservation(string observation);
+    int SaveObservation(Guid animalId, string observation);
     void DeleteObservation(int id);
 }
