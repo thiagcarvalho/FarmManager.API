@@ -24,6 +24,11 @@ public class ToqueConfiguration : IEntityTypeConfiguration<ToqueDataModel>
             .HasColumnType("timestamp without time zone")
             .HasColumnName("dataToque");
 
+        builder.Property(t => t.dataPartoPrevisto)
+            .IsRequired()
+            .HasColumnType("timestamp without time zone")
+            .HasColumnName("dataPartoPrevisto");
+
         builder.Property(t => t.vacaPrenha);
 
         builder.Property(t => t.tempoGestacaoDias);
