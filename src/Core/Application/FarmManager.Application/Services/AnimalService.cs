@@ -6,8 +6,10 @@ using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Application.Exceptions;
 using FarmManager.Domain.Entities;
+using FarmManager.Domain.Interfaces;
 using FarmManager.Domain.Interfaces.Factories;
 using FarmManager.Domain.ValueObject;
+using System;
 
 namespace FarmManager.Application.Services;
 
@@ -15,20 +17,23 @@ public class AnimalService : IAnimalService
 {
     private readonly IAnimalQueryRepository _animalQueryRepository;
     private readonly IAnimalCommandRepository _animalCommandRepository;
-    private readonly IAnimalFactory _animalFactory;
     private readonly ILoteService _loteService;
+    private readonly IObservationService _observationService;
+    private readonly IAnimalFactory _animalFactory;
     private readonly IMapper _mapper;
 
     public AnimalService(IAnimalQueryRepository animalQueryRepository,
         IAnimalCommandRepository animalCommandRepository,
-        IAnimalFactory animalFactory,
         ILoteService loteService,
+        IObservationService observationService,
+        IAnimalFactory animalFactory,
         IMapper mapper)
     {
         _animalQueryRepository = animalQueryRepository;
         _animalCommandRepository = animalCommandRepository;
-        _animalFactory = animalFactory;
         _loteService = loteService;
+        _observationService = observationService;
+        _animalFactory = animalFactory;
         _mapper = mapper;
     }
     public AnimalViewModel? GetAnimal(Guid Id)
@@ -53,7 +58,9 @@ public class AnimalService : IAnimalService
 
         var animal = CreateAnimal(animalInputModel);
 
-        return _animalCommandRepository.SaveAnimal(animal);
+        var animalId = _animalCommandRepository.SaveAnimal(animal);
+
+        return animalId;
     }
 
     public void UpdateAnimal(Guid Id, AnimalInputModel animalInputModel)
@@ -89,13 +96,22 @@ public class AnimalService : IAnimalService
 
         var cow = CreateCow(cowInputModel);
 
-        return _animalCommandRepository.SaveCow(cow);
+        var cowlId = _animalCommandRepository.SaveCow(cow);
+
+        if (cowInputModel.Obs != null && cowInputModel.Obs.Count != 0)
+        {
+            _observationService.AddObservation(cowlId, cowInputModel.Obs);
+        }
+
+        return cowlId;
     }
 
     public void UpdateCow(Guid Id, CowInputModel cowInputModel)
     {
         VerifyAnimalExistsByType(cowInputModel.RegisterNumber, "Cow");
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
+
+        _observationService.UpdateObservation(Id, cowInputModel.Obs);
     }
 
     public CalfViewModel? GetCalf(Guid Id)
@@ -119,7 +135,15 @@ public class AnimalService : IAnimalService
         VerifyMotherNumber(calfInputModel);
 
         var calf = CreateCalf(calfInputModel);
-        return _animalCommandRepository.SaveCalf(calf);
+
+        var calflId = _animalCommandRepository.SaveCalf(calf);
+
+        //if (!string.IsNullOrEmpty(calfInputModel.Obs))
+        //{
+        //    _observationService.AddObservation(calflId, calfInputModel.Obs);
+        //}
+
+        return calflId;
     }
 
     public void UpdateCalf(Guid Id, CalfInputModel calfInputModel)
@@ -151,7 +175,14 @@ public class AnimalService : IAnimalService
 
         var bull = CreateBull(bullInputModel);
 
-        return _animalCommandRepository.SaveBull(bull);
+        var bullId = _animalCommandRepository.SaveBull(bull);
+
+        //if (!string.IsNullOrEmpty(bullInputModel.Obs))
+        //{
+        //    _observationService.AddObservation(bullId, bullInputModel.Obs);
+        //}
+
+        return bullId;
     }
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)

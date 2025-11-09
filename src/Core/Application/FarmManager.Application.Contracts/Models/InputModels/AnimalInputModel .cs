@@ -22,4 +22,7 @@ public class AnimalInputModel
 
     [MaxLength(ErrorMessage = "The Lote is required")]
     public string? Lote { get; set; }
+
+    [MaxLength(100, ErrorMessage = "The observation cannot exceed 100 characters")]
+    public List<string>? Obs { get; set; }
 }
