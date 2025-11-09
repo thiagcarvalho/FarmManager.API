@@ -3,6 +3,7 @@ using System;
 using FarmManager.Persistence.EF.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FarmManager.Persistence.EF.Migrations
 {
     [DbContext(typeof(FarmManagerDbContext))]
-    partial class FarmManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251109144625_AddToque")]
+    partial class AddToque
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
