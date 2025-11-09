@@ -17,7 +17,7 @@ public class ObservationService : IObservationService
         _observationQueryRepository = observationQueryRepository;
     }
 
-    public int AddObservation(Guid animalId, string description)
+    public int AddObservation(Guid animalId, List<string> description)
     {
         return _observationsCommandRepository.SaveObservation(animalId, description);
     }
@@ -27,4 +27,9 @@ public class ObservationService : IObservationService
 
     public void DeleteObservation(int observationId) =>
         _observationsCommandRepository.DeleteObservation(observationId);
+
+    public void UpdateObservation(Guid animalId, List<string> description)
+    {
+        _observationsCommandRepository.UpdateObservation(animalId, description);
+    }
 }

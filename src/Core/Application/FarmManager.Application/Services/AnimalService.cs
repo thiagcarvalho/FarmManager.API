@@ -60,11 +60,6 @@ public class AnimalService : IAnimalService
 
         var animalId = _animalCommandRepository.SaveAnimal(animal);
 
-        if (!string.IsNullOrEmpty(animalInputModel.Obs))
-        {
-            _observationService.AddObservation(animalId, animalInputModel.Obs);
-        }
-
         return animalId;
     }
 
@@ -103,7 +98,7 @@ public class AnimalService : IAnimalService
 
         var cowlId = _animalCommandRepository.SaveCow(cow);
 
-        if (!string.IsNullOrEmpty(cowInputModel.Obs))
+        if (cowInputModel.Obs != null && cowInputModel.Obs.Count != 0)
         {
             _observationService.AddObservation(cowlId, cowInputModel.Obs);
         }
@@ -115,6 +110,8 @@ public class AnimalService : IAnimalService
     {
         VerifyAnimalExistsByType(cowInputModel.RegisterNumber, "Cow");
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
+
+        _observationService.UpdateObservation(Id, cowInputModel.Obs);
     }
 
     public CalfViewModel? GetCalf(Guid Id)
@@ -141,10 +138,10 @@ public class AnimalService : IAnimalService
 
         var calflId = _animalCommandRepository.SaveCalf(calf);
 
-        if (!string.IsNullOrEmpty(calfInputModel.Obs))
-        {
-            _observationService.AddObservation(calflId, calfInputModel.Obs);
-        }
+        //if (!string.IsNullOrEmpty(calfInputModel.Obs))
+        //{
+        //    _observationService.AddObservation(calflId, calfInputModel.Obs);
+        //}
 
         return calflId;
     }
@@ -180,10 +177,10 @@ public class AnimalService : IAnimalService
 
         var bullId = _animalCommandRepository.SaveBull(bull);
 
-        if (!string.IsNullOrEmpty(bullInputModel.Obs))
-        {
-            _observationService.AddObservation(bullId, bullInputModel.Obs);
-        }
+        //if (!string.IsNullOrEmpty(bullInputModel.Obs))
+        //{
+        //    _observationService.AddObservation(bullId, bullInputModel.Obs);
+        //}
 
         return bullId;
     }
