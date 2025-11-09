@@ -9,6 +9,7 @@ namespace FarmManager.Application.Contracts.Models.ViewModels;
 public class ToqueViewModel
 {
     public int Id { get; set; }
+    public int cowId { get; set; }
     public DateTime DataToque { get; set; }
     public bool VacaPrenha { get; set; }
     public int TempoGestacaoDias { get; set; }

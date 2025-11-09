@@ -5,9 +5,10 @@ namespace FarmManager.Application.Contracts.Interfaces;
 
 public interface IToqueService
 {
-    void AddToque(ToqueInputModelcs toqueInputModelcs);
+    int AddToque(ToqueInputModel toqueInputModelcs);
     void DeleteToque(int id);
+    int DeleteExpiredToques();
     ToqueViewModel? GetToque(int id);
-    List<ToqueViewModel> GetByAnimalId(Guid animalId);
+    List<ToqueViewModel> GetByAnimalId(int cowId);
     List<ToqueViewModel> GetAll();
 }

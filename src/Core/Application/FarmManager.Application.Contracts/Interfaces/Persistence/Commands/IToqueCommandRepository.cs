@@ -4,6 +4,6 @@ namespace FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 
 public interface IToqueCommandRepository
 {
-    void AddToque(ToqueInputModelcs toqueInputModelcs);
+    int AddToque(ToqueInputModel toqueInputModelcs);
     void DeleteToque(int id);
 }

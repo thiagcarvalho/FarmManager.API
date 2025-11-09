@@ -25,6 +25,7 @@ public static class Config
         services.AddScoped<IAnimalService, AnimalService>();
         services.AddScoped<ILoteService, LoteService>();
         services.AddScoped<IObservationService, ObservationService>();
+        services.AddScoped<IToqueService, ToqueService>();
         services.AddAutoMapper(typeof(QuerryMappingProfile), typeof(CommandMappingProfile));
     }
 
@@ -41,6 +42,8 @@ public static class Config
         services.AddScoped<ILoteCommandRepository, LoteCommandRepository>();
         services.AddScoped<IObservationQueryRepository, ObservationQueryRepository>();
         services.AddScoped<IObservationCommandRepository, ObservationCommandRepository>();
+        services.AddScoped<IToqueQueryRepository, ToqueQueryRepository>();
+        services.AddScoped<IToqueCommandRepository, ToqueCommandRepository>();
     }
 
     public static void AddFactories(this IServiceCollection services, IConfiguration configuration)

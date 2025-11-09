@@ -2,16 +2,18 @@
 
 namespace FarmManager.Application.Contracts.Models.InputModels;
 
-public class ToqueInputModelcs
+public class ToqueInputModel
 {
+    [Required(ErrorMessage = "Cow Id is required")]
+    public int CowId { get; set; }
 
-    [MaxLength(ErrorMessage = "Data Prenha is required")]
+    [Required(ErrorMessage = "Data Prenha is required")]
     public DateTime DataToque { get; set; }
 
-    [MaxLength(ErrorMessage = "Vaca Prenha is required")]
+    [Required(ErrorMessage = "Vaca Prenha is required")]
     public bool VacaPrenha { get; set; }
 
-    [MaxLength(ErrorMessage = "Tempo de Gestacao is required")]
+    [Required(ErrorMessage = "Tempo de Gestacao is required")]
     public int TempoGestacaoDias { get; set; }
 
     [MaxLength(100, ErrorMessage = "The observation cannot exceed 100 characters")]
