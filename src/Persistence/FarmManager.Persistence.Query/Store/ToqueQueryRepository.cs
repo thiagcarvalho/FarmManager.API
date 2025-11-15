@@ -2,7 +2,7 @@
 using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Contracts.Models.ViewModels;
 using FarmManager.Persistence.EF.Context;
-using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmManager.Persistence.Query.Store;
 
@@ -19,7 +19,11 @@ public class ToqueQueryRepository : IToqueQueryRepository
 
     List<ToqueViewModel> IToqueQueryRepository.GetAll()
     {
-        var toques = _context.Toques.ToList();
+        var toques = _context.Toques
+            .AsNoTracking()
+            .Include(t => t.Cow)
+                .ThenInclude(c => c.Animal)
+            .ToList();
 
         return _mapper.Map<List<ToqueViewModel>>(toques);
     }
@@ -27,6 +31,9 @@ public class ToqueQueryRepository : IToqueQueryRepository
     List<ToqueViewModel> IToqueQueryRepository.GetByAnimalId(int cowId)
     {
         var toques = _context.Toques
+            .AsNoTracking()
+            .Include(t => t.Cow)
+                .ThenInclude(c => c.Animal)
             .Where(t => t.cowId == cowId)
             .ToList();
 

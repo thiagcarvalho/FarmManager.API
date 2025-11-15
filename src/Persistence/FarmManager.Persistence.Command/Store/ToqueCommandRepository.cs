@@ -26,8 +26,6 @@ public class ToqueCommandRepository : IToqueCommandRepository
         {
             var toqueDataModel = _mapper.Map<ToqueDataModel>(toqueInputModelcs);
 
-            toqueDataModel.dataPartoPrevisto = CalcularDataPartoPrevisto(toqueDataModel.dataToque, toqueDataModel.tempoGestacaoDias);
-
             if (toqueDataModel.vacaPrenha)
             {
                 var cow = _context.Cows.FirstOrDefault(c => c.Id == toqueDataModel.cowId);
@@ -37,7 +35,8 @@ public class ToqueCommandRepository : IToqueCommandRepository
                     throw new InvalidOperationException($"Vaca com Id {toqueDataModel.cowId} não encontrada.");
                 }
 
-                cow.IsPregnant = true;
+                toqueDataModel.dataPartoPrevisto = CalcularDataPartoPrevisto(toqueDataModel.dataToque, toqueDataModel.tempoGestacaoDias);
+                cow.IsPregnant = toqueDataModel.vacaPrenha;
             }
 
             _context.Toques.Add(toqueDataModel);

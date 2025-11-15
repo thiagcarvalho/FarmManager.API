@@ -53,7 +53,8 @@ public class QuerryMappingProfile : Profile
 
         CreateMap<ToqueDataModel, ToqueViewModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.cowId, opt => opt.MapFrom(src => src.cowId))
+            .ForMember(dest => dest.CowName, opt => opt.MapFrom(src => src.Cow.Name))
+            .ForMember(dest => dest.RegisterNumber, opt => opt.MapFrom(src => src.Cow.Animal.RegisterNumber))
             .ForMember(dest => dest.DataToque, opt => opt.MapFrom(src => src.dataToque))
             .ForMember(dest => dest.VacaPrenha, opt => opt.MapFrom(src => src.vacaPrenha))
             .ForMember(dest => dest.TempoGestacaoDias, opt => opt.MapFrom(src => src.tempoGestacaoDias))

@@ -39,7 +39,7 @@ namespace FarmManager.WebApi.Controllers
         [HttpGet("cow/{cowId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult GetByCowId(int cowId)
+        public ActionResult GetByCowId(Guid cowId)
         {
             var toques = _toqueService.GetByAnimalId(cowId);
             return toques is null || !toques.Any()

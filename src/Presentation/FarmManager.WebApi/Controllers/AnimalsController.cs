@@ -79,6 +79,17 @@ namespace FarmManager.WebApi.Controllers
                 : Ok(animal);
         }
 
+        [HttpGet("cows/by-number/{number:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetCowByNumber(int number)
+        {
+            var cow = _animalService.GetCowByRegisterNumber(number);
+            return cow is null
+                ? NotFound($"Cow with number {number} not found.")
+                : Ok(cow);
+        }
+
         [HttpGet("cows")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult GetAllCows()
@@ -126,6 +137,17 @@ namespace FarmManager.WebApi.Controllers
         {
             var cows = _animalService.GetAllCalves();
             return Ok(cows);
+        }
+
+        [HttpGet("calves/by-mother/{motherNumber:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetCalfByMotherNumber(int motherNumber)
+        {
+            var calf = _animalService.GetCalfByMotherNumber(motherNumber);
+            return calf is null
+                ? NotFound($"Calf with mother number {motherNumber} not found.")
+                : Ok(calf);
         }
 
         [HttpPost("calves")]

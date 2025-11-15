@@ -9,6 +9,6 @@ public interface IToqueService
     void DeleteToque(int id);
     int DeleteExpiredToques();
     ToqueViewModel? GetToque(int id);
-    List<ToqueViewModel> GetByAnimalId(int cowId);
+    List<ToqueViewModel> GetByAnimalId(Guid animalID);
     List<ToqueViewModel> GetAll();
 }
