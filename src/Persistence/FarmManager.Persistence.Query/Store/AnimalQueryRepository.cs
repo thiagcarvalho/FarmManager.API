@@ -40,6 +40,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
         var cow = _context.Cows
             .Include(c => c.Animal)
                 .ThenInclude(a => a.Lote)
+            .OrderByDescending(c => c.Animal.RegisterNumber)
             .FirstOrDefault(c => c.AnimalId == Id);
 
         return _mapper.Map<CowViewModel?>(cow);
@@ -50,6 +51,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
             .Cows
             .Include(c => c.Animal)
                 .ThenInclude(a => a.Lote)
+            .OrderBy(c => c.Animal.RegisterNumber)
             .ToList();
 
         return _mapper.Map<List<CowViewModel>>(cows);
@@ -120,8 +122,44 @@ public class AnimalQueryRepository : IAnimalQueryRepository
         var animals = _context.Animals
             .Include(a => a.Lote)
             .Where(a => a.LoteId == loteId)
+            .OrderBy(c => c.RegisterNumber)
             .ToList();
 
         return _mapper.Map<List<AnimalViewModel>>(animals);
+    }
+
+    public int? GetCowIdByAnimalId(Guid animalId)
+    {
+        return _context.Cows
+            .Where(c => c.AnimalId == animalId)
+            .Select(c => (int?)c.Id)
+            .FirstOrDefault();
+    }
+
+    public int? GetCowIdByRegisterNumber(int registerNumber)
+    {
+        return _context.Cows
+            .Include(c => c.Animal)
+            .Where(c => c.Animal.RegisterNumber == registerNumber)
+            .Select(c => (int?)c.Id)
+            .FirstOrDefault();
+    }
+
+    public CalfViewModel? GetCalfByMotherNumber(int motherNumber)
+    {
+        return _mapper.Map<CalfViewModel?>(
+            _context.Calves
+                .Include(calf => calf.Animal)
+                    .ThenInclude(a => a.Lote)
+                .FirstOrDefault(calf => calf.MotherNumber == motherNumber));
+    }
+
+    public CowViewModel? GetCowByRegisterNumber(int registerNumber)
+    {
+        return _mapper.Map<CowViewModel?>(
+            _context.Cows
+                .Include(c => c.Animal)
+                    .ThenInclude(a => a.Lote)
+                .FirstOrDefault(c => c.Animal.RegisterNumber == registerNumber));
     }
 }

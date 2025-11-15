@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FarmManager.Application.Contracts.Models.InputModels;
 using FarmManager.Domain.Entities;
 using FarmManager.Persistence.DataModels.Store;
 
@@ -49,5 +50,12 @@ public class CommandMappingProfile : Profile
         CreateMap<Lote, LoteDataModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<ToqueInputModel, ToqueDataModel>()
+            .ForMember(dest => dest.cowId, opt => opt.MapFrom(src => src.CowId))
+            .ForMember(dest => dest.dataToque, opt => opt.MapFrom(src => src.DataToque))
+            .ForMember(dest => dest.vacaPrenha, opt => opt.MapFrom(src => src.VacaPrenha))
+            .ForMember(dest => dest.tempoGestacaoDias, opt => opt.MapFrom(src => src.TempoGestacaoDias))
+            .ForMember(dest => dest.observacoes, opt => opt.MapFrom(src => src.Observacoes));
     }
 }

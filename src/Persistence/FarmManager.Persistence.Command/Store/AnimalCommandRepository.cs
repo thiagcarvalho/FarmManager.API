@@ -4,6 +4,7 @@ using FarmManager.Domain.Entities;
 using FarmManager.Persistence.DataModels;
 using FarmManager.Persistence.DataModels.Store;
 using FarmManager.Persistence.EF.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace FarmManager.Persistence.Command.Store;
 
@@ -45,11 +46,46 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
     public void DeleteAnimal(Guid Id)
     {
-        var animal = _context.Animals.Find(Id);
-        if (animal != null)
+        using var transaction = _context.Database.BeginTransaction();
+        try
         {
+            var animal = _context.Animals.Find(Id);
+            if (animal == null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(animal.Type) &&
+                animal.Type.Equals("Calf", StringComparison.OrdinalIgnoreCase))
+            {
+                var calf = _context.Calves
+                    .AsNoTracking()
+                    .FirstOrDefault(c => c.AnimalId == Id);
+
+                if (calf != null)
+                {
+                    var motherCow = _context.Cows
+                        .Include(c => c.Animal)
+                        .FirstOrDefault(c => c.Animal != null && c.Animal.RegisterNumber == calf.MotherNumber);
+
+                    if (motherCow != null && motherCow.HasCalf)
+                    {
+                        motherCow.HasCalf = false;
+                        motherCow.UpdatedAt = DateTime.UtcNow;
+                        motherCow.UpdatedBy = "System";
+                    }
+                }
+            }
+
             _context.Animals.Remove(animal);
             _context.SaveChanges();
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
         }
     }
 
@@ -116,6 +152,18 @@ public class AnimalCommandRepository : IAnimalCommandRepository
 
             _context.Calves.Add(calfDataModel);
             _context.SaveChanges();
+
+            var motherCow = _context.Cows
+                .Include(c => c.Animal)
+                .FirstOrDefault(c => c.Animal != null && c.Animal.RegisterNumber == calf.MotherNumber);
+
+            if (motherCow != null)
+            {
+                motherCow.HasCalf = true;
+                motherCow.UpdatedAt = DateTime.UtcNow;
+                motherCow.UpdatedBy = "System";
+                _context.SaveChanges();
+            }
 
             transaction.Commit();
             return animalId;

@@ -50,5 +50,15 @@ public class QuerryMappingProfile : Profile
         CreateMap<ObservationDataModel, ObservationViewModel>()
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.DataAdd, opt => opt.MapFrom(src => src.DataAdd));
+
+        CreateMap<ToqueDataModel, ToqueViewModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.CowName, opt => opt.MapFrom(src => src.Cow.Name))
+            .ForMember(dest => dest.RegisterNumber, opt => opt.MapFrom(src => src.Cow.Animal.RegisterNumber))
+            .ForMember(dest => dest.DataToque, opt => opt.MapFrom(src => src.dataToque))
+            .ForMember(dest => dest.VacaPrenha, opt => opt.MapFrom(src => src.vacaPrenha))
+            .ForMember(dest => dest.TempoGestacaoDias, opt => opt.MapFrom(src => src.tempoGestacaoDias))
+            .ForMember(dest => dest.DataPartoPrevisto, opt => opt.MapFrom(src => src.dataPartoPrevisto))
+            .ForMember(dest => dest.Observacoes, opt => opt.MapFrom(src => src.observacoes));
     }
 }

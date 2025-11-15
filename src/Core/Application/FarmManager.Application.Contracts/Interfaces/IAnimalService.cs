@@ -15,7 +15,9 @@ public interface IAnimalService
     void UpdateBull(Guid Id, BullInputModel bullInputModel);
     AnimalViewModel? GetAnimal(Guid Id);
     CowViewModel? GetCow(Guid Id);
+    CowViewModel? GetCowByRegisterNumber(int registerNumber);
     CalfViewModel? GetCalf(Guid Id);
+    CalfViewModel? GetCalfByMotherNumber(int motherNumber);
     BullViewModel? GetBull(Guid Id);
     List<AnimalViewModel> GetAllAnimals();
     List<CowViewModel> GetAllCows();

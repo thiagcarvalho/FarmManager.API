@@ -90,6 +90,11 @@ public class AnimalService : IAnimalService
         return _animalQueryRepository.GetAllCows();
     }
 
+    public CowViewModel? GetCowByRegisterNumber(int registerNumber)
+    {
+        return _animalQueryRepository.GetCowByRegisterNumber(registerNumber);
+    }
+
     public Guid SaveCow(CowInputModel cowInputModel)
     {
         VerifyAnimalRegisterNumber(cowInputModel.RegisterNumber);
@@ -138,10 +143,10 @@ public class AnimalService : IAnimalService
 
         var calflId = _animalCommandRepository.SaveCalf(calf);
 
-        //if (!string.IsNullOrEmpty(calfInputModel.Obs))
-        //{
-        //    _observationService.AddObservation(calflId, calfInputModel.Obs);
-        //}
+        if (calfInputModel.Obs != null && calfInputModel.Obs.Count != 0)
+        {
+            _observationService.AddObservation(calflId, calfInputModel.Obs);
+        }
 
         return calflId;
     }
@@ -151,6 +156,7 @@ public class AnimalService : IAnimalService
         VerifyMotherNumber(calfInputModel);
 
         _animalCommandRepository.UpdateCalf(Id, CreateCalf(calfInputModel));
+        _observationService.UpdateObservation(Id, calfInputModel.Obs);
     }
 
     public BullViewModel? GetBull(Guid Id)
@@ -177,18 +183,24 @@ public class AnimalService : IAnimalService
 
         var bullId = _animalCommandRepository.SaveBull(bull);
 
-        //if (!string.IsNullOrEmpty(bullInputModel.Obs))
-        //{
-        //    _observationService.AddObservation(bullId, bullInputModel.Obs);
-        //}
+        if (bullInputModel.Obs != null && bullInputModel.Obs.Count != 0)
+        {
+            _observationService.AddObservation(bullId, bullInputModel.Obs);
+        }
 
         return bullId;
+    }
+
+    public CalfViewModel? GetCalfByMotherNumber(int motherNumber)
+    {
+        return _animalQueryRepository.GetCalfByMotherNumber(motherNumber);
     }
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)
     {
         VerifyAnimalExistsByType(bullInputModel.RegisterNumber, "Bull");
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
+        _observationService.UpdateObservation(Id, bullInputModel.Obs);
     }
 
     private void VerifyAnimalRegisterNumber(int registerNumber)

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FarmManager.Application.Contracts.Interfaces;
+﻿using FarmManager.Application.Contracts.Interfaces;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Commands;
 using FarmManager.Application.Contracts.Interfaces.Persistence.Queries;
 using FarmManager.Application.Services;
@@ -13,8 +12,7 @@ using FarmManager.Persistence.Query.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
-using System.Data;
+
 
 namespace FarmManager.Application;
 
@@ -25,6 +23,8 @@ public static class Config
         services.AddScoped<IAnimalService, AnimalService>();
         services.AddScoped<ILoteService, LoteService>();
         services.AddScoped<IObservationService, ObservationService>();
+        services.AddScoped<IToqueService, ToqueService>();
+        services.AddScoped<IDashBoardService, DashBoardService>();
         services.AddAutoMapper(typeof(QuerryMappingProfile), typeof(CommandMappingProfile));
     }
 
@@ -41,6 +41,9 @@ public static class Config
         services.AddScoped<ILoteCommandRepository, LoteCommandRepository>();
         services.AddScoped<IObservationQueryRepository, ObservationQueryRepository>();
         services.AddScoped<IObservationCommandRepository, ObservationCommandRepository>();
+        services.AddScoped<IToqueQueryRepository, ToqueQueryRepository>();
+        services.AddScoped<IToqueCommandRepository, ToqueCommandRepository>();
+        services.AddScoped<IDashboardQueryRepository, DashboardQueryRepository>();
     }
 
     public static void AddFactories(this IServiceCollection services, IConfiguration configuration)
