@@ -24,6 +24,13 @@ public class ToqueCommandRepository : IToqueCommandRepository
 
         try
         {
+            var existingToque = GetToqueByCow(toqueInputModelcs.CowId);
+
+            if (existingToque != null)
+            {
+                _context.Toques.Remove(existingToque);
+            }
+
             var toqueDataModel = _mapper.Map<ToqueDataModel>(toqueInputModelcs);
 
             if (toqueDataModel.vacaPrenha)
@@ -81,6 +88,11 @@ public class ToqueCommandRepository : IToqueCommandRepository
             transaction.Rollback();
             throw;
         }
+    }
+
+    private ToqueDataModel? GetToqueByCow(int cowId)
+    {
+        return _context.Toques.FirstOrDefault(t => t.cowId == cowId);
     }
 
     private static DateTime CalcularDataPartoPrevisto(DateTime dataToque, int diasGestacaoAtual)

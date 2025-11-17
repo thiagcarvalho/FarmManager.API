@@ -32,9 +32,14 @@ public class Animal : IAnimal
     private int CalculateAge()
     {
         var today = DateTime.Today;
-        int age = today.Year - Birthday.Year;
-        if (Birthday.Date > today.AddYears(-age)) age--;
-        return age;
+        int ageMonths = (today.Year - Birthday.Year) * 12 + (today.Month - Birthday.Month);
+
+        if (today.Day < Birthday.Day)
+        {
+            ageMonths--;
+        }
+
+        return ageMonths;
     }
 
     public void UpdateWeight(Arroba newWeight) => Weight = newWeight;
