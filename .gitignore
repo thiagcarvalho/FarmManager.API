@@ -54,3 +54,8 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 .vs/
+
+appsettings.*.local.json
+appsettings.Development.json
+.env
+*.env
