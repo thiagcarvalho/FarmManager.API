@@ -50,16 +50,8 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    try
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<FarmManagerDbContext>();
-        dbContext.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Erro ao migrar o banco de dados. Verifique se o PostgreSQL está rodando em localhost:5432");
-    }
+    var dbContext = scope.ServiceProvider.GetRequiredService<FarmManagerDbContext>();
+    dbContext.Database.Migrate();
 }
 
 app.Run();
