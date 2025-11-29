@@ -113,7 +113,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateCow(Guid Id, CowInputModel cowInputModel)
     {
-        VerifyAnimalExistsByType(cowInputModel.RegisterNumber, "Cow");
+        VerifyAnimalRegisterNumberForUpdate(cowInputModel.RegisterNumber, Id);
         _animalCommandRepository.UpdateCow(Id, CreateCow(cowInputModel));
 
         _observationService.UpdateObservation(Id, cowInputModel.Obs);
@@ -198,7 +198,7 @@ public class AnimalService : IAnimalService
 
     public void UpdateBull(Guid Id, BullInputModel bullInputModel)
     {
-        VerifyAnimalExistsByType(bullInputModel.RegisterNumber, "Bull");
+        VerifyAnimalRegisterNumberForUpdate(bullInputModel.RegisterNumber, Id);
         _animalCommandRepository.UpdateBull(Id, CreateBull(bullInputModel));
         _observationService.UpdateObservation(Id, bullInputModel.Obs);
     }
@@ -219,11 +219,19 @@ public class AnimalService : IAnimalService
         }
     }
 
+    private void VerifyAnimalRegisterNumberForUpdate(int registerNumber, Guid animalId)
+    {
+        if (_animalQueryRepository.AnimalExistsByRegisterNumberExcludingId(registerNumber, animalId))
+        {
+            throw new DuplicateResourceException("Animal", registerNumber);
+        }
+    }
+
     private void VerifyMotherNumber(CalfInputModel calfInputModel)
     {
         if (!_animalQueryRepository.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"))
         {
-            throw new NotFoundException($"The cow with register number {calfInputModel.MotherNumber} does not exist.");
+            throw new NotFoundException($"A vaca com o numero de registro {calfInputModel.MotherNumber} não existe.");
         }
     }
 

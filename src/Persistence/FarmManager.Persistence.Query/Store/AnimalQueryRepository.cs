@@ -73,6 +73,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
             .Calves
             .Include(calf => calf.Animal)
                 .ThenInclude(a => a.Lote)
+            .OrderBy(c => c.Animal.RegisterNumber)
             .ToList();
 
         return _mapper.Map<List<CalfViewModel>>(calves);
@@ -94,6 +95,7 @@ public class AnimalQueryRepository : IAnimalQueryRepository
             .Bulls
             .Include(b => b.Animal)
                 .ThenInclude(a => a.Lote)
+            .OrderBy(c => c.Animal.RegisterNumber)
             .ToList();
 
         return _mapper.Map<List<BullViewModel>>(bulls);
@@ -161,5 +163,14 @@ public class AnimalQueryRepository : IAnimalQueryRepository
                 .Include(c => c.Animal)
                     .ThenInclude(a => a.Lote)
                 .FirstOrDefault(c => c.Animal.RegisterNumber == registerNumber));
+    }
+
+    public bool AnimalExistsByRegisterNumberExcludingId(int registerNumber, Guid excludeId)
+    {
+        var exists = _context
+            .Animals
+            .Any(a => a.RegisterNumber == registerNumber && a.Id != excludeId);
+
+        return exists;
     }
 }

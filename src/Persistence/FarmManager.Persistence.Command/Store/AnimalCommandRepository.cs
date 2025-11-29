@@ -118,15 +118,42 @@ public class AnimalCommandRepository : IAnimalCommandRepository
         using var transaction = _context.Database.BeginTransaction();
         try
         {
-            var existingCow = _context.Cows.FirstOrDefault(c => c.AnimalId == Id);
+            var existingCow = _context.Cows
+                .Include(c => c.Animal)
+                .FirstOrDefault(c => c.AnimalId == Id);
+
             if (existingCow != null)
             {
+                var oldRegisterNumber = existingCow.Animal.RegisterNumber;
+                var newRegisterNumber = cow.RegisterNumber;
+
                 UpdateAnimal(Id, cow);
 
                 _mapper.Map(cow, existingCow);
                 existingCow.UpdatedAt = DateTime.UtcNow;
                 existingCow.UpdatedBy = "System";
                 _context.SaveChanges();
+
+                if (oldRegisterNumber != newRegisterNumber)
+                {
+                    var calves = _context.Calves
+                        .Include(c => c.Animal)
+                        .Where(c => c.MotherNumber == oldRegisterNumber)
+                        .ToList();
+
+                    foreach (var calf in calves)
+                    {
+                        calf.MotherNumber = newRegisterNumber;
+                        calf.Animal.RegisterNumber = newRegisterNumber;
+                        calf.UpdatedAt = DateTime.UtcNow;
+                        calf.UpdatedBy = "System";
+                    }
+
+                    if (calves.Count > 0)
+                    {
+                        _context.SaveChanges();
+                    }
+                }
             }
 
             transaction.Commit();

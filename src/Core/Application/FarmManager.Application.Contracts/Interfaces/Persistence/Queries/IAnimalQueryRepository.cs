@@ -16,6 +16,7 @@ public interface IAnimalQueryRepository
     List<BullViewModel> GetAllBulls();
     bool AnimalExistsByRegisterNumber(int registerNumber);
     bool AnimalExistsByRegisterNumberAndType(int registerNumber, string type);
+    bool AnimalExistsByRegisterNumberExcludingId(int registerNumber, Guid excludeId);
     int? GetCowIdByAnimalId(Guid animalId);
     int? GetCowIdByRegisterNumber(int registerNumber);
     List<AnimalViewModel> GetAnimalsByLoteId(int loteId);
