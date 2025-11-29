@@ -148,36 +148,36 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
     [Fact]
     public void SaveCow_WithValidInput_ReturnsNewCowId()
     {
-            // Arrange
-            var newCowId = Guid.NewGuid();
+        // Arrange
+        var newCowId = Guid.NewGuid();
 
-            var cowInputModel = new CowInputModel
-            {
-                RegisterNumber = 1,
-                Weight = 150.5m,
-                Birthday = new DateTime(2020, 1, 1),
-                Type = "Cow",
-                Name = "Bessie",
-                IsPregnant = true,
-                HasCalf = false,
-                IsMilking = true
-            };
+        var cowInputModel = new CowInputModel
+        {
+            RegisterNumber = 1,
+            Weight = 150.5m,
+            Birthday = new DateTime(2020, 1, 1),
+            Type = "Cow",
+            Name = "Bessie",
+            IsPregnant = true,
+            HasCalf = false,
+            IsMilking = true
+        };
 
-            MockQueryRepository
-                .Setup(repo => repo.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber))
-                .Returns(false);
+        MockQueryRepository
+            .Setup(repo => repo.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber))
+            .Returns(false);
 
-            MockCommandRepository
-                .Setup(repo => repo.SaveCow(It.IsAny<Domain.Entities.Cow>()))
-                .Returns(newCowId);
+        MockCommandRepository
+            .Setup(repo => repo.SaveCow(It.IsAny<Domain.Entities.Cow>()))
+            .Returns(newCowId);
 
-            // Act
-            var result = AnimalService.SaveCow(cowInputModel);
+        // Act
+        var result = AnimalService.SaveCow(cowInputModel);
 
-            // Assert
-            Assert.Equal(newCowId, result);
-            MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
-            MockCommandRepository.Verify(x => x.SaveCow(It.IsAny<Domain.Entities.Cow>()), Times.Once);
+        // Assert
+        Assert.Equal(newCowId, result);
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
+        MockCommandRepository.Verify(x => x.SaveCow(It.IsAny<Domain.Entities.Cow>()), Times.Once);
     }
 
     [Fact]
@@ -215,7 +215,7 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
         var cowId = Guid.NewGuid();
         var cowInputModel = new CowInputModel
         {
-            Id = Guid.NewGuid(),
+            Id = cowId,
             RegisterNumber = 2,
             Weight = 130.0m,
             Birthday = new DateTime(2022, 1, 1),
@@ -226,25 +226,25 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
             IsMilking = false
         };
         MockQueryRepository
-            .Setup(repo => repo.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber))
-            .Returns(true);
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId))
+            .Returns(false);
 
         // Act
         AnimalService.UpdateCow(cowId, cowInputModel);
 
         // Assert
-        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId), Times.Once);
         MockCommandRepository.Verify(x => x.UpdateCow(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Once);
     }
 
     [Fact]
-    public void UpdateCow_WithNonExistentRegisterNumber_ThrowsNotFoundException()
+    public void UpdateCow_WithDuplicateRegisterNumber_ThrowsDuplicateResourceException()
     {
         // Arrange
         var cowId = Guid.NewGuid();
         var cowInputModel = new CowInputModel
         {
-            Id = Guid.NewGuid(),
+            Id = cowId,
             RegisterNumber = 2,
             Weight = 130.0m,
             Birthday = new DateTime(2022, 1, 1),
@@ -255,13 +255,42 @@ public class AnimalServiceCowTests : AnimalServiceTestBase
             IsMilking = false
         };
         MockQueryRepository
-            .Setup(repo => repo.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber))
-            .Returns(false);
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId))
+            .Returns(true);
 
         // Act & Assert
-        var exception = Assert.Throws<NotFoundException>(() => AnimalService.UpdateCow(cowId, cowInputModel));
-        Assert.Equal($"The Cow with register number {cowInputModel.RegisterNumber} does not exist.", exception.Message);
-        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(cowInputModel.RegisterNumber), Times.Once);
+        var exception = Assert.Throws<DuplicateResourceException>(() => AnimalService.UpdateCow(cowId, cowInputModel));
+        Assert.Equal($"Animal with identifier '{cowInputModel.RegisterNumber}' already exists.", exception.Message);
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId), Times.Once);
         MockCommandRepository.Verify(x => x.UpdateCow(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Never);
+    }
+
+    [Fact]
+    public void UpdateCow_WithSameRegisterNumber_CallsUpdateCow()
+    {
+        // Arrange - Valida que pode atualizar mantendo o mesmo RegisterNumber
+        var cowId = Guid.NewGuid();
+        var cowInputModel = new CowInputModel
+        {
+            Id = cowId,
+            RegisterNumber = 5,
+            Weight = 160.0m,
+            Birthday = new DateTime(2021, 6, 15),
+            Type = "Cow",
+            Name = "Bessie",
+            IsPregnant = true,
+            HasCalf = false,
+            IsMilking = true
+        };
+        MockQueryRepository
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId))
+            .Returns(false);
+
+        // Act
+        AnimalService.UpdateCow(cowId, cowInputModel);
+
+        // Assert
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(cowInputModel.RegisterNumber, cowId), Times.Once);
+        MockCommandRepository.Verify(x => x.UpdateCow(cowId, It.IsAny<Domain.Entities.Cow>()), Times.Once);
     }
 }

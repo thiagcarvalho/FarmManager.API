@@ -190,7 +190,7 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
         var bullId = Guid.NewGuid();
         var bullInputModel = new BullInputModel
         {
-            Id = Guid.NewGuid(),
+            Id = bullId,
             RegisterNumber = 2,
             Weight = 130.0m,
             Birthday = new DateTime(2022, 1, 1),
@@ -198,38 +198,65 @@ public class AnimalServiceBullTests : AnimalServiceTestBase
             Name = "Thunder"
         };
         MockQueryRepository
-            .Setup(repo => repo.AnimalExistsByRegisterNumber(bullInputModel.RegisterNumber))
-            .Returns(true);
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId))
+            .Returns(false);
 
         // Act
         AnimalService.UpdateBull(bullId, bullInputModel);
 
         // Assert
-        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(bullInputModel.RegisterNumber), Times.Once);
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId), Times.Once);
         MockCommandRepository.Verify(x => x.UpdateBull(bullId, It.IsAny<Bull>()), Times.Once);
     }
 
     [Fact]
-    public void UpdateBull_WithNonExistentRegisterNumber_ThrowsNotFoundException()
+    public void UpdateBull_WithDuplicateRegisterNumber_ThrowsDuplicateResourceException()
     {
         // Arrange
         var bullId = Guid.NewGuid();
         var bullInputModel = new BullInputModel
         {
-            RegisterNumber = 1,
-            Weight = 150.5m,
-            Birthday = new DateTime(2020, 1, 1),
+            Id = bullId,
+            RegisterNumber = 2,
+            Weight = 130.0m,
+            Birthday = new DateTime(2022, 1, 1),
             Type = "Bull",
-            Name = "Ferdinando",
+            Name = "Thunder"
         };
         MockQueryRepository
-            .Setup(repo => repo.AnimalExistsByRegisterNumber(bullInputModel.RegisterNumber))
-            .Returns(false);
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId))
+            .Returns(true);
 
         // Act & Assert
-        var exception = Assert.Throws<NotFoundException>(() => AnimalService.UpdateBull(bullId, bullInputModel));
-        Assert.Equal($"The Bull with register number {bullInputModel.RegisterNumber} does not exist.", exception.Message);
-        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(bullInputModel.RegisterNumber), Times.Once);
+        var exception = Assert.Throws<DuplicateResourceException>(() => AnimalService.UpdateBull(bullId, bullInputModel));
+        Assert.Equal($"Animal with identifier '{bullInputModel.RegisterNumber}' already exists.", exception.Message);
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId), Times.Once);
         MockCommandRepository.Verify(x => x.UpdateBull(bullId, It.IsAny<Bull>()), Times.Never);
+    }
+
+    [Fact]
+    public void UpdateBull_WithSameRegisterNumber_CallsUpdateBull()
+    {
+        // Arrange - Valida que pode atualizar mantendo o mesmo RegisterNumber
+        var bullId = Guid.NewGuid();
+        var bullInputModel = new BullInputModel
+        {
+            Id = bullId,
+            RegisterNumber = 5,
+            Weight = 140.0m,
+            Birthday = new DateTime(2021, 5, 15),
+            Type = "Bull",
+            Name = "Thunderbolt"
+        };
+        MockQueryRepository
+            .Setup(repo => repo.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId))
+            .Returns(false);
+
+        // Act
+        AnimalService.UpdateBull(bullId, bullInputModel);
+
+        // Assert
+        MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberExcludingId(bullInputModel.RegisterNumber, bullId), Times.Once);
+        MockCommandRepository.Verify(x => x.UpdateBull(bullId, It.IsAny<Bull>()), Times.Once);
     }
 }
