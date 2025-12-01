@@ -217,7 +217,7 @@ public class AnimalServiceTests : AnimalServiceTestBase
 
         // Act & Assert
         var exception = Assert.Throws<NotFoundException>(() => AnimalService.UpdateAnimal(animalId, animalInputModel));
-        Assert.Equal($"The Animal with register number {animalInputModel.RegisterNumber} does not exist.", exception.Message);
+        Assert.Equal($"O animal com o número de registro '{animalInputModel.RegisterNumber}' não existe.", exception.Message);
         MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumber(animalInputModel.RegisterNumber), Times.Once);
         MockCommandRepository.Verify(x => x.UpdateAnimal(animalId, It.IsAny<Domain.Entities.Animal>()), Times.Never);
     }
