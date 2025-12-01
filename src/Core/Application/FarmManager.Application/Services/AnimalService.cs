@@ -231,7 +231,7 @@ public class AnimalService : IAnimalService
     {
         if (!_animalQueryRepository.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"))
         {
-            throw new NotFoundException($"A vaca com o numero de registro {calfInputModel.MotherNumber} não existe.");
+            throw new NotFoundException($"A vaca com o numero de registro {calfInputModel.MotherNumber} nao existe.");
         }
     }
 
