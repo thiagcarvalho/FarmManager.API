@@ -211,6 +211,7 @@ public class AnimalServiceTests : AnimalServiceTestBase
             Birthday = new DateTime(2020, 1, 1),
             Type = "Cow"
         };
+
         MockQueryRepository
             .Setup(repo => repo.AnimalExistsByRegisterNumber(animalInputModel.RegisterNumber))
             .Returns(false);
