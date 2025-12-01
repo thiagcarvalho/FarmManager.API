@@ -37,7 +37,7 @@ public class ToqueCommandRepository : IToqueCommandRepository
 
             if (cow == null)
             {
-               throw new InvalidOperationException($"Vaca com Id {toqueDataModel.cowId} não encontrada.");
+               throw new InvalidOperationException($"Vaca com Id {toqueDataModel.cowId} nao encontrada.");
             }
 
             if (toqueDataModel.vacaPrenha)

@@ -215,7 +215,7 @@ public class AnimalService : IAnimalService
     {
         if (!_animalQueryRepository.AnimalExistsByRegisterNumber(registerNumber))
         {
-            throw new NotFoundException($"O animal com o número de registro '{registerNumber}' não existe.");
+            throw new NotFoundException($"O animal com o número de registro '{registerNumber}' nao existe.");
         }
     }
 

@@ -189,7 +189,7 @@ public class AnimalServiceCalfTests : AnimalServiceTestBase
 
         // Act & Assert
         var exception = Assert.Throws<NotFoundException>(() => AnimalService.SaveCalf(calfInputModel));
-        Assert.Equal($"A vaca com o numero de registro {calfInputModel.MotherNumber} não existe.", exception.Message);
+        Assert.Equal($"A vaca com o numero de registro {calfInputModel.MotherNumber} nao existe.", exception.Message);
         MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"), Times.Once);
         MockCommandRepository.Verify(x => x.SaveCalf(It.IsAny<Calf>()), Times.Never);
     }
@@ -242,7 +242,7 @@ public class AnimalServiceCalfTests : AnimalServiceTestBase
 
         // Act & Assert
         var exception = Assert.Throws<NotFoundException>(() => AnimalService.SaveCalf(calfInputModel));
-        Assert.Equal($"A vaca com o numero de registro {calfInputModel.MotherNumber} não existe.", exception.Message);
+        Assert.Equal($"A vaca com o numero de registro {calfInputModel.MotherNumber} nao existe.", exception.Message);
         MockQueryRepository.Verify(x => x.AnimalExistsByRegisterNumberAndType(calfInputModel.MotherNumber, "Cow"), Times.Once);
         MockCommandRepository.Verify(x => x.SaveCalf(It.IsAny<Calf>()), Times.Never);
     }
